@@ -5,7 +5,7 @@ import java.net.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Servidor_Pronostico extends Thread {
+public class HiloHoroscopo extends Thread {
 
     private Socket socket;
     private DataOutputStream dos;
@@ -38,10 +38,10 @@ public class Servidor_Pronostico extends Thread {
         try {
             // Esto es lo que el cliente solicita, en este caso un signo zoodiacal
             request = dis.readUTF();
-
+    
             // Comunicacion con el servidor del horoscopo
             String strOutput = process(request);
-            System.out.println("Pronostico solicitado por el cliente con idSesion " + this.idSessio);
+            System.out.println("Horoscopo solicitado por el cliente con idSesion " + this.idSessio);
             System.out.println(strOutput);
 
             // Devolvemos resultado al cliente
@@ -54,14 +54,14 @@ public class Servidor_Pronostico extends Thread {
     }
 
     public String process(String request) {
-        final String SERVIDORPRONOSTICO = "localhost";
-        final int PORT = 7000;
+        final String SERVIDORHOROSCOPO = "localhost";
+        final int PORT = 6000;
         String response = "";
 
         Socket socket;
 
         try {
-            socket = new Socket(SERVIDORPRONOSTICO, PORT);
+            socket = new Socket(SERVIDORHOROSCOPO, PORT);
 
             //Para leer lo que envie el servidor
             BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));

@@ -15,8 +15,8 @@ public class Servidor_Central {
                 Socket socket;
                 socket = ss.accept();
                 System.out.println("Nueva conexión entrante: " + socket);
-                ((Servidor_Pronostico) new Servidor_Pronostico(socket, idSession)).start();
-                ((Servidor_Horoscopo) new Servidor_Horoscopo(socket, idSession)).start();
+                ((HiloPronostico) new HiloPronostico(socket, idSession)).start();
+                ((HiloHoroscopo) new HiloHoroscopo(socket, idSession)).start();
                 idSession++;
             }
         } catch (final IOException ex) {
