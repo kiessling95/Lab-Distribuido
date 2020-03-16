@@ -13,7 +13,7 @@ public class MainCliente {
         Socket socket;//Socket para la comunicacion cliente servidor
 
         try {            
-            System.out.println("Cliente> Inicio");  
+            System.out.println("Cliente> Inicio");
             while( !exit ){//ciclo repetitivo                                
                 socket = new Socket(SERVER, PORT);//abre socket
                 //Para leer lo que envie el servidor      
@@ -24,7 +24,7 @@ public class MainCliente {
                 DataInputStream input = new DataInputStream(socket.getInputStream());
                 //Para leer lo que escriba el usuario
                 BufferedReader brRequest = new BufferedReader(new InputStreamReader(System.in));
-                System.out.println("Cliente> Escriba comando");                
+                System.out.print("Cliente> ");
                 //captura comando escrito por el usuario
                 String request = brRequest.readLine();
 

@@ -79,6 +79,12 @@ public class ServidorHoroscopo {
 
         result = phrasesList.get(0);
 
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException ex) {
+            System.err.println(ex.getMessage());
+        }
+
         return result;
     }
 }

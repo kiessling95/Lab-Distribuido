@@ -107,6 +107,12 @@ public class ServidorPronostico {
                 result += "será indeterminado.";
         }
 
+        try {
+            Thread.sleep(6000);
+        } catch (InterruptedException ex) {
+            System.err.println(ex.getMessage());
+        }
+
         return result;
     }
 }
