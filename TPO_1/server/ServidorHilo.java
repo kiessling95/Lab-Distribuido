@@ -18,8 +18,9 @@ public class ServidorHilo extends Thread {
     public ServidorHilo(Socket socket, int id) {
         this.socket = socket;
         this.idSessio = id;
-        this.patronFecha = Pattern.compile("(0?[1-9]|[12][0-9]|3[01])[- /.](0?[1-9]|1[012])[- /.](19\\d\\d|20\\d\\d)");
-        this.patronSigno = Pattern.compile("[aA]ries|[tT]auro|[gG].minis|[cC].ncer|[lL]eo|[vV]irgo]|[lL]ibra|[eE]scorpio|[sS]agitario|[cC]apricornio|[aA]cuario|[pP]iscis");
+        this.patronFecha = Pattern.compile("(0?[1-9]|[12][0-9]|3[01])[- /.](0?[1-9]|1[012])[- /.]\\d?\\d?(\\d{2})");
+        this.patronSigno = Pattern.compile("aries|tauro|geminis|cancer|leo|virgo|libra|escorpio|sagitario|capricornio|acuario|piscis",
+                Pattern.CASE_INSENSITIVE);
 
         try {
             dos = new DataOutputStream(socket.getOutputStream());
@@ -42,7 +43,7 @@ public class ServidorHilo extends Thread {
         String request = "";
         String response = "";
         try {
-            // Esto es lo que el cliente solicita, en este caso un signo zoodiacal
+            // Esto es lo que el cliente solicita
             request = dis.readUTF();
 
             Matcher escanearSigno = patronSigno.matcher(request);

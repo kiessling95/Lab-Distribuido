@@ -15,30 +15,37 @@ public class MainCliente {
         try {            
             System.out.println("Cliente> Inicio");  
             while( !exit ){//ciclo repetitivo                                
-                socket = new Socket(SERVER, PORT);//abre socket                
+                socket = new Socket(SERVER, PORT);//abre socket
                 //Para leer lo que envie el servidor      
                 //BufferedReader input = new BufferedReader( new InputStreamReader(socket.getInputStream()));
                 //para imprimir datos del servidor
                 //PrintStream output = new PrintStream(socket.getOutputStream());
                 DataOutputStream output = new DataOutputStream(socket.getOutputStream());
                 DataInputStream input = new DataInputStream(socket.getInputStream());
-                //Para leer lo que escriba el usuario            
-                BufferedReader brRequest = new BufferedReader(new InputStreamReader(System.in));            
+                //Para leer lo que escriba el usuario
+                BufferedReader brRequest = new BufferedReader(new InputStreamReader(System.in));
                 System.out.println("Cliente> Escriba comando");                
                 //captura comando escrito por el usuario
-                String request = brRequest.readLine();                
+                String request = brRequest.readLine();
+
+                if (request.equals("exit")) {
+                    output.close();
+                    socket.close();
+                    break;
+                }
+
                 //manda peticion al servidor
                 output.writeUTF(request);
                 //captura respuesta e imprime
-                String st = input.readUTF(); //input.readLine();
-                if( st != null ) System.out.println("Servidor> " + st );    
+                String st = input.readUTF();
+                if( st != null ) System.out.println("Servidor> " + st );
                 if(request.equals("exit")){//terminar aplicacion
                     exit = true;
-                    System.out.println("Cliente> Fin de programa");    
+                    System.out.println("Cliente> Fin de programa");
                 }
                 output.close();
                 socket.close();
-            }//end while                                    
+            }//end while
        } catch (IOException ex) {
             System.err.println("Cliente> " + ex.getMessage());
        }
