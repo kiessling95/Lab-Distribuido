@@ -18,7 +18,7 @@ public class ServidorPronostico {
     public static void main(String[] args) {
 
         try {
-            System.out.println("Inicializando servidor pronostico en el puerto " + PORT + " ... ");
+            System.out.print("Inicializando servidor pronostico en el puerto " + PORT + "... ");
             ServerSocket serverSocket = new ServerSocket(PORT);
             System.out.println("\t[OK]");
 

@@ -11,12 +11,12 @@ import java.util.Collections;
 
 public class ServidorHoroscopo {
 
-    private final static int PORT = 6000;
+    private final static int PORT = 8000;
 
     public static void main(String[] args) {
 
         try {
-            System.out.println("Inicializando servidor horoscopo en el puerto " + PORT + " ... ");
+            System.out.print("Inicializando servidor horoscopo en el puerto " + PORT + "... ");
             ServerSocket serverSocket = new ServerSocket(PORT);
             System.out.println("\t[OK]");
 

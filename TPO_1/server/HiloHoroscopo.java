@@ -4,6 +4,8 @@ import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class HiloHoroscopo extends Thread {
 
@@ -11,10 +13,12 @@ public class HiloHoroscopo extends Thread {
     private DataOutputStream dos;
     private DataInputStream dis;
     private int idSessio;
+    private Pattern patronSigno;
 
-    public Servidor_Horoscopo(Socket socket, int id) {
+    public HiloHoroscopo(Socket socket, int id) {
         this.socket = socket;
         this.idSessio = id;
+        this.patronSigno = Pattern.compile("[aA]ries|[tT]auro|[gG].minis|[cC].ncer|[lL]eo|[vV]irgo]|[lL]ibra|[eE]scorpio|[sS]agitario|[cC]apricornio|[aA]cuario|[pP]iscis");
 
         try {
             dos = new DataOutputStream(socket.getOutputStream());
@@ -38,14 +42,20 @@ public class HiloHoroscopo extends Thread {
         try {
             // Esto es lo que el cliente solicita, en este caso un signo zoodiacal
             request = dis.readUTF();
-    
-            // Comunicacion con el servidor del horoscopo
-            String strOutput = process(request);
-            System.out.println("Horoscopo solicitado por el cliente con idSesion " + this.idSessio);
-            System.out.println(strOutput);
 
-            // Devolvemos resultado al cliente
-            dos.writeUTF(strOutput);
+            Matcher escanearSigno = patronSigno.matcher(request);
+
+            if (escanearSigno.find()) {
+                String signo = escanearSigno.group();
+
+                // Comunicacion con el servidor del horoscopo
+                String strOutput = process(signo);
+                System.out.println("Prediccion de " + signo + " solicitada por el cliente con idSesion " + this.idSessio);
+
+                // Devolvemos resultado al cliente
+                dos.writeUTF(strOutput);
+            }
+
         } catch (IOException ex) {
             System.err.println(ex.getMessage());
         }
@@ -55,7 +65,7 @@ public class HiloHoroscopo extends Thread {
 
     public String process(String request) {
         final String SERVIDORHOROSCOPO = "localhost";
-        final int PORT = 6000;
+        final int PORT = 8000;
         String response = "";
 
         Socket socket;
@@ -75,7 +85,7 @@ public class HiloHoroscopo extends Thread {
             //if( st != null ) System.out.println("Servidor> " + st );
 
             socket.close();
-        } catch (IOException ex)) {
+        } catch (IOException ex) {
             System.err.println(ex.getMessage());
         }
 
