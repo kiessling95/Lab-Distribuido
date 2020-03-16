@@ -1,6 +1,8 @@
+package server;
+
 import java.io.*;
 import java.net.*;
-import java.util.logging.*;
+
 public class Servidor_Central {
     public static void main(final String args[]) throws IOException {
         ServerSocket ss;
@@ -14,10 +16,11 @@ public class Servidor_Central {
                 socket = ss.accept();
                 System.out.println("Nueva conexión entrante: " + socket);
                 ((Servidor_Pronostico) new Servidor_Pronostico(socket, idSession)).start();
+                ((Servidor_Horoscopo) new Servidor_Horoscopo(socket, idSession)).start();
                 idSession++;
             }
         } catch (final IOException ex) {
-            Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println(ex.getMessage());
         }
     }
 }
