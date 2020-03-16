@@ -35,12 +35,12 @@ public class ServidorPronostico {
                 PrintStream output = new PrintStream(clientSocket.getOutputStream());
                 //se lee peticion del cliente
                 String request = input.readLine();
-                System.out.println("Cliente> He pedido el pronostico de [" + request +  "]");
+                System.out.println("ServidorCentral> Pidió el pronóstico del día [" + request +  "]");
                 //se procesa la peticion y se espera resultado
                 String strOutput = process(request);
                 //Se imprime en consola "servidor"
-                System.out.println("Servidor Horscopo> La siguiente informacion sera devuelta al cliente");
-                System.out.println("Servidor Horsocopo> \"" + strOutput + "\"");
+                System.out.println("Pronóstico> La siguiente información será devuelta");
+                System.out.println("Pronóstico> \"" + strOutput + "\"");
                 //se imprime en cliente
                 output.flush();//vacia contenido
                 output.println(strOutput);
@@ -58,7 +58,7 @@ public class ServidorPronostico {
      * @return String
      */
     public static String process(String request) {
-        String result = "";
+        String result = " El día ";
         int value = 0;
 
         Pattern patronFecha = Pattern.compile("(0?[1-9]|[12][0-9]|3[01])[- /.](0?[1-9]|1[012])[- /.](19\\d\\d|20\\d\\d)");
@@ -74,37 +74,37 @@ public class ServidorPronostico {
 
         switch (value) {
             case 0:
-                result = "soleado";
+                result += "será soleado.";
                 break;
             case 1:
-                result = "ventoso";
+                result += "será ventoso.";
                 break;
             case 2:
-                result = "lluvias";
+                result += "será lluvioso.";
                 break;
             case 3:
-                result = "nevadas";
+                result += "tendrá nevadas.";
                 break;
             case 4:
-                result = "granizo";
+                result += "tendrá granizo.";
                 break;
             case 5:
-                result = "huracanes";
+                result += "tendrá huracanes.";
                 break;
             case 6:
-                result = "nublado";
+                result += "estará nublado.";
                 break;
             case 7:
-                result = "posibles lluvias";
+                result += "tendrá posibles lluvias.";
                 break;
             case 8:
-                result = "tormentas electricas";
+                result += "tendrá tormentas electricas.";
                 break;
             case 9:
-                result = "niebla";
+                result += "tendrá nieblas.";
                 break;
             default:
-                result = "indeterminado";
+                result += "será indeterminado.";
         }
 
         return result;

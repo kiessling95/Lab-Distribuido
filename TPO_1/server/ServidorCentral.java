@@ -3,7 +3,7 @@ package server;
 import java.io.*;
 import java.net.*;
 
-public class Servidor_Central {
+public class ServidorCentral {
     public static void main(final String args[]) throws IOException {
         ServerSocket ss;
         System.out.print("Inicializando servidor... ");
@@ -16,8 +16,7 @@ public class Servidor_Central {
                 socket = ss.accept();
                 System.out.println("Nueva conexión entrante: " + socket);
 
-                ((HiloHoroscopo) new HiloHoroscopo(socket, idSession)).start();
-                //((HiloPronostico) new HiloPronostico(socket, idSession)).start();
+                ((ServidorHilo) new ServidorHilo(socket, idSession)).start();
                 idSession++;
             }
         } catch (final IOException ex) {

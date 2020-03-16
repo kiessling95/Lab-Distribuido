@@ -33,12 +33,12 @@ public class ServidorHoroscopo {
                 PrintStream output = new PrintStream(clientSocket.getOutputStream());
                 //se lee peticion del cliente
                 String request = input.readLine();
-                System.out.println("Cliente> He pedido el horoscopo de [" + request +  "]");
+                System.out.println("ServidorCentral> Pidió la predicción del siguiente signo [" + request +  "]");
                 //se procesa la peticion y se espera resultado
                 String strOutput = process(request);
                 //Se imprime en consola "servidor"
-                System.out.println("Servidor Horscopo> La siguiente informacion sera devuelta al cliente");
-                System.out.println("Servidor Horsocopo> \"" + strOutput + "\"");
+                System.out.println("Horóscopo> La siguiente informacion será devuelta");
+                System.out.println("Horócopo> \"" + strOutput + "\"");
                 //se imprime en cliente
                 output.flush();//vacia contenido
                 output.println(strOutput);
