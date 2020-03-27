@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo Ejecutando Cliente 
+
+java cliente/MainCliente
+
+
+
