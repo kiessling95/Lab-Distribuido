@@ -2,7 +2,7 @@
 
 echo Ejecutando Cliente 
 
-java cliente/MainCliente
+java cliente/MainCliente $1 $2
 
 
 

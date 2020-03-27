@@ -5,6 +5,7 @@ import java.net.Socket;
 
 public class MainCliente {
 
+    // default
     private final static int PORT = 10578;
     private final static String SERVER = "localhost";
 
@@ -15,7 +16,9 @@ public class MainCliente {
         try {
             System.out.println("Cliente> Inicio");
             while( !exit ) {
-                socket = new Socket(SERVER, PORT);  // abre socket
+
+                // direccion server y port por consola
+                socket = new Socket(args[0], Integer.parseInt(args[1])); // abre socket 
 
                 DataOutputStream output = new DataOutputStream(socket.getOutputStream());
                 DataInputStream input = new DataInputStream(socket.getInputStream());

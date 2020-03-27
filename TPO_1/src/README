@@ -1,0 +1,10 @@
+La secuencia para la ejecución de los script en linux:
+
+1 SC -> Servidor Central
+2 SH y SP -> Servidores pronostico y horoscopo 
+3 Cliente -> Cliente 
+    ./script-Cliente direccion ( localhost o ip ) puerto (10578)
+
+Realizar consulta pronostico y/o horoscopo
+
+de realizarse ambas en una sola consulta atendera el horoscopo antes que el pronostico sin importar el orden

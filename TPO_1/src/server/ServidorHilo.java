@@ -3,6 +3,7 @@ package server;
 import java.io.*;
 import java.net.*;
 import java.util.regex.*;
+
 import java.util.concurrent.*;
 
 public class ServidorHilo extends Thread {
@@ -59,7 +60,7 @@ public class ServidorHilo extends Thread {
                 signo = escanearSigno.group();
 
                 System.out.println("Prediccion del signo [" + signo + "] solicitada por el cliente con idSesion=" + this.idSessio);
-                solicitarHoroscopo = new FutureTask<String>(new Peticion(signo, "localhost", 8000));
+                solicitarHoroscopo = new FutureTask<String>(new Peticion(signo, this.socket.getInetAddress().toString().substring(1), 8000));
 
                 if (hm.containsKey(signo)) {
                     response[0] = new String(hm.get(signo));
@@ -76,7 +77,7 @@ public class ServidorHilo extends Thread {
                 fecha = escanearFecha.group();
 
                 System.out.println("Pronostico del dia [" + fecha + "] solicitado por el cliente " + this.idSessio);
-                solicitarPronostico = new FutureTask<String>(new Peticion(fecha, "localhost", 7000));
+                solicitarPronostico = new FutureTask<String>(new Peticion(fecha,this.socket.getInetAddress().toString().substring(1), 7000));
 
                 if(hm.containsKey(fecha)) {
                     response[1] = new String(hm.get(fecha));
@@ -101,7 +102,7 @@ public class ServidorHilo extends Thread {
 
             // Devolvemos resultado al cliente
             executor.shutdown();
-            dos.writeUTF(response[0] + response[1]);
+            dos.writeUTF(response[0] + "\n" + response[1]);
         } catch (Exception ex) {
             System.err.println(ex.getMessage());
         }
