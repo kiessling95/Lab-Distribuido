@@ -1,0 +1,14 @@
+#!/bin/bash
+
+echo Generando las clases de java:
+
+javac server/ServidorCentral.java
+javac server/ServidorHilo.java
+javac server/ServidorHoroscopo.java
+javac server/ServidorPronostico.java
+
+gnome-terminal -- './script-SC'
+
+gnome-terminal -- './script-SH'
+
+gnome-terminal -- './script-SP'
