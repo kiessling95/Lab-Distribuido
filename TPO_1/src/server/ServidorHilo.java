@@ -14,14 +14,18 @@ public class ServidorHilo extends Thread {
     private int idSessio;
     private Pattern patronSigno, patronFecha;
     private ConcurrentHashMap<String,String> hm;
+    private String ipServidorHoroscopo;
+    private String ipServidorPronostico;
 
-    public ServidorHilo(Socket socket, int id, ConcurrentHashMap<String,String> hashmap) {
+    public ServidorHilo(Socket socket, int id, ConcurrentHashMap<String,String> hashmap, String ipSH, String ipSP) {
         this.socket = socket;
         this.idSessio = id;
         this.hm = hashmap;
         this.patronFecha = Pattern.compile("(0?[1-9]|[12][0-9]|3[01])[- /.](0?[1-9]|1[012])[- /.]\\d?\\d?(\\d{2})");
         this.patronSigno = Pattern.compile("aries|tauro|geminis|cancer|leo|virgo|libra|escorpio|sagitario|capricornio|acuario|piscis",
                 Pattern.CASE_INSENSITIVE);
+        this.ipServidorHoroscopo = ipSH;
+        this.ipServidorPronostico = ipSP;
 
         try {
             dos = new DataOutputStream(socket.getOutputStream());
@@ -60,7 +64,7 @@ public class ServidorHilo extends Thread {
                 signo = escanearSigno.group();
 
                 System.out.println("Prediccion del signo [" + signo + "] solicitada por el cliente con idSesion=" + this.idSessio);
-                solicitarHoroscopo = new FutureTask<String>(new Peticion(signo, this.socket.getInetAddress().toString().substring(1), 8000));
+                solicitarHoroscopo = new FutureTask<String>(new Peticion(signo, ipServidorHoroscopo, 8000));
 
                 if (hm.containsKey(signo)) {
                     response[0] = new String(hm.get(signo));
@@ -77,7 +81,7 @@ public class ServidorHilo extends Thread {
                 fecha = escanearFecha.group();
 
                 System.out.println("Pronostico del dia [" + fecha + "] solicitado por el cliente " + this.idSessio);
-                solicitarPronostico = new FutureTask<String>(new Peticion(fecha,this.socket.getInetAddress().toString().substring(1), 7000));
+                solicitarPronostico = new FutureTask<String>(new Peticion(fecha, ipServidorPronostico, 7000));
 
                 if(hm.containsKey(fecha)) {
                     response[1] = new String(hm.get(fecha));

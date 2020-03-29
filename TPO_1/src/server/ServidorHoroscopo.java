@@ -16,8 +16,10 @@ public class ServidorHoroscopo {
     public static void main(String[] args) {
 
         try {
-            System.out.print("Inicializando servidor horoscopo en el puerto " + PORT + "... ");
             ServerSocket serverSocket = new ServerSocket(PORT);
+            String ip = serverSocket.getInetAddress().toString().substring(1);
+            System.out.print("Inicializando servidor horoscopo en el puerto " + PORT + " IP: " + ip);
+
             System.out.println("\t[OK]");
 
             //Socket de cliente

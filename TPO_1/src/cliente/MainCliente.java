@@ -5,20 +5,22 @@ import java.net.Socket;
 
 public class MainCliente {
 
-    // default
-    private final static int PORT = 10578;
-    private final static String SERVER = "localhost";
-
     public static void main(String[] args) {
         boolean exit = false;   // bandera para controlar ciclo del programa
         Socket socket;          // socket para la comunicacion cliente servidor
+        int puerto = 10578;
+        String servidor = "localhost";
+
+        if (args.length != 0) {
+            servidor = args[0];
+        }
 
         try {
             System.out.println("Cliente> Inicio");
             while( !exit ) {
 
                 // direccion server y port por consola
-                socket = new Socket(args[0], Integer.parseInt(args[1])); // abre socket 
+                socket = new Socket(servidor, puerto); // abre socket
 
                 DataOutputStream output = new DataOutputStream(socket.getOutputStream());
                 DataInputStream input = new DataInputStream(socket.getInputStream());
