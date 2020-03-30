@@ -69,35 +69,35 @@ public class ServidorPronostico {
         switch (value) {
             case 0:
                 result += 
-                "Temperatura : 15 - 35°C - Cielo despejado - Viento: Noreste 10 km/h - Presión: 1001 hPa";
+                "Temperatura : 15 - 35°C - Cielo despejado - Viento: Noreste 10 km/h - Presion: 1001 hPa";
                 break;
             case 1:
                 result += 
-                "Temperatura : 9 - 20°C - Nublado con tormentas - Viento: Norte 32 km/h Presión: 1003 hPa";
+                "Temperatura : 9 - 20°C - Nublado con tormentas - Viento: Norte 32 km/h Presion: 1003 hPa";
                 break;
             case 2:
                 result +=
-                "Temperatura : 10 - 25°C - Nublado con lluvias aisladas - Viento: Este 40 km/h - Presión: 1003 hPa";
+                "Temperatura : 10 - 25°C - Nublado con lluvias aisladas - Viento: Este 40 km/h - Presion: 1003 hPa";
                 break;
             case 3:
                 result +=
-                "Temperatura : 20 - 25,2°C - Tormertas electricas - Viento: Norte 50 km/h - Presión: 1500 hPa";
+                "Temperatura : 20 - 25,2°C - Tormentas electricas - Viento: Norte 50 km/h - Presion: 1500 hPa";
                 break;
             case 4:
                 result +=
-                "Temperatura : 25,2°C - Se espera Huracan - Viento: Oeste 100 km/h - Presión: 1200 hPa";
+                "Temperatura : 25,2°C - Se espera Huracan - Viento: Oeste 100 km/h - Presion: 1200 hPa";
                 break;
             case 5:
                 result +=
-                "Temperatura : 15 - 30°C - Cielo despejado, el dia estara hermoso para quedarse en cuarentena - Viento: Sureste 20 km/h - Presión: 1003 hPa";
+                "Temperatura : 15 - 30°C - Cielo despejado, el dia estara hermoso para quedarse en cuarentena - Viento: Sureste 20 km/h - Presion: 1003 hPa";
                 break;
             case 6:
                 result += 
-                "Temperatura : -9 - 10°C - Cielo algo nublado - Viento: Sur 43 km/h - Presión: 950 hPa";
+                "Temperatura : -9 - 10°C - Cielo algo nublado - Viento: Sur 43 km/h - Presion: 950 hPa";
                 break;
             case 7:
                 result +=
-                "Temperatura : 15 - 25°C - Cielo nublado - Viento: Suroeste 32 km/h - Presión: 1003 hPa";
+                "Temperatura : 15 - 25°C - Cielo nublado - Viento: Suroeste 32 km/h - Presion: 1003 hPa";
                 break;
             case 8:
                 result +=
@@ -105,11 +105,11 @@ public class ServidorPronostico {
                 break;
             case 9:
                 result +=
-                "Temperatura : 25 - 41°C - Cielo despejado - Viento: Norte 32 km/h - Presión: 1003 hPa";
+                "Temperatura : 25 - 41°C - Cielo despejado - Viento: Norte 32 km/h - Presion: 1003 hPa";
                 break;
             default:
                 result +=
-                "Temperatura : 30 - 43°C - Infierno en la tierra, evitar salir - Viento: --  km/h - Presión: 2000 hPa";
+                "Temperatura : 30 - 43°C - Infierno en la tierra, evitar salir - Viento: --  km/h - Presion: 2000 hPa";
         }
 
         try {
