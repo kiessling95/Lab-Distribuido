@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clima>
+	<dia id="0">
+		<temperatura>15 - 35°C</temperatura>
+		<viento>Noreste 10 km/h</viento>
+		<presion>1001 hPa</presion>
+		<humedad></humedad>
+		<notas>Cielo despejado</notas>
+	</dia>
+	<dia id="1">
+		<temperatura>9 - 20°C</temperatura>
+		<viento>Norte 32 km/h</viento>
+		<presion>1003 hPa</presion>
+		<humedad></humedad>
+		<notas>Nublado con tormentas</notas>
+	</dia>
+	<dia id="2">
+		<temperatura>10 - 25°C</temperatura>
+		<viento>Este 40 km/h</viento>
+		<presion>1015 hPa</presion>
+		<humedad></humedad>
+		<notas>Nublado con lluvias aisladas</notas>	
+	</dia>
+	<dia id="3">
+		<temperatura>20 - 25,2°C</temperatura>
+		<viento>Norte 50 km/h</viento>
+		<presion>1500 hPa</presion>
+		<humedad></humedad>
+		<notas>Tormentas electricas</notas>	
+	</dia>
+	<dia id="4">
+		<temperatura>25,2°C</temperatura>
+		<viento>Oeste 100 km/h</viento>
+		<presion>1200 hPa</presion>
+		<humedad></humedad>
+		<notas>Se espera Huracan</notas>	
+	</dia>
+	<dia id="5">
+		<temperatura>15 - 30°C</temperatura>
+		<viento>Sureste 20 km/h</viento>
+		<presion>1003 hPa</presion>
+		<humedad></humedad>
+		<notas>Cielo despejado, el dia estara hermoso para quedarse en cuarentena</notas>	
+	</dia>
+</clima>

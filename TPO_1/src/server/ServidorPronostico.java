@@ -4,6 +4,8 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 import java.util.regex.*;
+import javax.xml.parsers.*;
+import org.w3c.dom.*;
 
 public class ServidorPronostico {
 
@@ -52,64 +54,42 @@ public class ServidorPronostico {
      * @return String
      */
     public static String process(String request) {
-        String result = " El pronostico del dia ";
+        String result = "El pronostico del dia: ";
         int value = 0;
 
         Pattern patronFecha = Pattern.compile("(0?[1-9]|[12][0-9]|3[01])[- /.](0?[1-9]|1[012])[- /.](19\\d\\d|20\\d\\d)");
         Matcher matcher = patronFecha.matcher(request);
 
-        if (matcher.find()) {
-            int day = Integer.parseInt(matcher.group(1));
-            int month = Integer.parseInt(matcher.group(2));
-            int year = Integer.parseInt(matcher.group(3));
+        int day = Integer.parseInt(matcher.group(1));
+        int month = Integer.parseInt(matcher.group(2));
+        int year = Integer.parseInt(matcher.group(3));
 
-            value = (day + month + year) % 10;
-        }
+        try {
+            File file = new File("Pronosticos.xml");
+            //an instance of factory that gives a document builder
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            //an instance of builder to parse the specified xml file
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document doc = db.parse(file);
+            doc.getDocumentElement().normalize();
 
-        switch (value) {
-            case 0:
-                result += 
-                "Temperatura : 15 - 35°C - Cielo despejado - Viento: Noreste 10 km/h - Presion: 1001 hPa";
-                break;
-            case 1:
-                result += 
-                "Temperatura : 9 - 20°C - Nublado con tormentas - Viento: Norte 32 km/h Presion: 1003 hPa";
-                break;
-            case 2:
-                result +=
-                "Temperatura : 10 - 25°C - Nublado con lluvias aisladas - Viento: Este 40 km/h - Presion: 1003 hPa";
-                break;
-            case 3:
-                result +=
-                "Temperatura : 20 - 25,2°C - Tormentas electricas - Viento: Norte 50 km/h - Presion: 1500 hPa";
-                break;
-            case 4:
-                result +=
-                "Temperatura : 25,2°C - Se espera Huracan - Viento: Oeste 100 km/h - Presion: 1200 hPa";
-                break;
-            case 5:
-                result +=
-                "Temperatura : 15 - 30°C - Cielo despejado, el dia estara hermoso para quedarse en cuarentena - Viento: Sureste 20 km/h - Presion: 1003 hPa";
-                break;
-            case 6:
-                result += 
-                "Temperatura : -9 - 10°C - Cielo algo nublado - Viento: Sur 43 km/h - Presion: 950 hPa";
-                break;
-            case 7:
-                result +=
-                "Temperatura : 15 - 25°C - Cielo nublado - Viento: Suroeste 32 km/h - Presion: 1003 hPa";
-                break;
-            case 8:
-                result +=
-                "Temperatura : 20 - 25,2°C - Chaparrones durante la tarde noche - Viento: Sur 52 km/h - Presión: 1003 hPa";
-                break;
-            case 9:
-                result +=
-                "Temperatura : 25 - 41°C - Cielo despejado - Viento: Norte 32 km/h - Presion: 1003 hPa";
-                break;
-            default:
-                result +=
-                "Temperatura : 30 - 43°C - Infierno en la tierra, evitar salir - Viento: --  km/h - Presion: 2000 hPa";
+            NodeList nodeList = doc.getElementsByTagName("dia");
+            value = (day + month + year) % nodeList.getLength();
+
+            Node node = nodeList.item(value);
+
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                Element elemento = (Element) node;
+
+                result += "Temperatura: " + elemento.getElementsByTagName("temperatura").item(0).getTextContent() +
+                        " - Viento: " + elemento.getElementsByTagName("viento").item(0).getTextContent() +
+                        " - Presion: " + elemento.getElementsByTagName("presion").item(0).getTextContent() +
+                        " - Humedad: "+ elemento.getElementsByTagName("humedad").item(0).getTextContent() +
+                        " - Notas: "+ elemento.getElementsByTagName("notas").item(0).getTextContent();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         try {
