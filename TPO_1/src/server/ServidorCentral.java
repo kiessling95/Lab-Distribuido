@@ -28,9 +28,8 @@ public class ServidorCentral {
             ss = new ServerSocket(PORT);
             int idSession = 0;
             while (true) {
-                Socket socket;
-                socket = ss.accept();
-                System.out.println("Nueva conexión entrante: " + socket);
+                Socket socket = ss.accept();
+                System.out.println("Nueva conexion entrante: " + socket);
 
                 ((ServidorHilo) new ServidorHilo(socket, idSession, hm, ipSH, ipSP)).start();
                 idSession++;

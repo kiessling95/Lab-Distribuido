@@ -10,11 +10,11 @@ javac -d ../out server/*.java
 ECHO Listo!
 ECHO *****************
 ECHO Entrar a carpeta out y ejecutar:
-ECHO 
+ECHO ---
 ECHO java server.ServidorHoroscopo
 ECHO java server.ServidorPronostico
 ECHO java server.ServidorCentral
 ECHO java cliente.MainCliente
-ECHO
+ECHO ---
 ECHO Tantos clientes como sean necesarios
 

@@ -14,8 +14,7 @@ public class ServidorHilo extends Thread {
     private int idSessio;
     private Pattern patronSigno, patronFecha;
     private ConcurrentHashMap<String,String> hm;
-    private String ipServidorHoroscopo;
-    private String ipServidorPronostico;
+    private String ipServidorHoroscopo, ipServidorPronostico;
 
     public ServidorHilo(Socket socket, int id, ConcurrentHashMap<String,String> hashmap, String ipSH, String ipSP) {
         this.socket = socket;
@@ -35,14 +34,6 @@ public class ServidorHilo extends Thread {
         }
     }
 
-    public void desconectar() {
-        try {
-            socket.close();
-        } catch (IOException ex) {
-            System.err.println(ex.getMessage());
-        }
-    }
-
     @Override
     public void run() {
         String request = "";
@@ -57,18 +48,25 @@ public class ServidorHilo extends Thread {
             // Esto es lo que el cliente solicita
             request = dis.readUTF();
 
+            if (request.equals("exit")) {
+                dos.writeUTF("Se despide del cliente");
+                socket.close();
+
+                return;
+            }
+
             Matcher escanearSigno = patronSigno.matcher(request);
             Matcher escanearFecha = patronFecha.matcher(request);
 
             if (escanearSigno.find()) {
                 signo = escanearSigno.group();
 
-                System.out.println("Prediccion del signo [" + signo + "] solicitada por el cliente con idSesion=" + this.idSessio);
+                System.out.println("Prediccion del signo [" + signo + "] solicitada por el cliente " + this.idSessio);
                 solicitarHoroscopo = new FutureTask<String>(new Peticion(signo, ipServidorHoroscopo, 8000));
 
                 if (hm.containsKey(signo)) {
                     response[0] = new String(hm.get(signo));
-                    System.out.println("Se accedió al búffer para recuperar la predicción del cliente " + this.idSessio);
+                    System.out.println("Se accedio al buffer para recuperar la prediccion del cliente " + this.idSessio);
                 } else {
                     // Comunicacion con el servidor del horoscopo
                     executor.submit(solicitarHoroscopo);
@@ -85,7 +83,7 @@ public class ServidorHilo extends Thread {
 
                 if(hm.containsKey(fecha)) {
                     response[1] = new String(hm.get(fecha));
-                    System.out.println("Se accedió al búffer para recuperar el pronóstico del cliente " + this.idSessio);
+                    System.out.println("Se accedio al buffer para recuperar el pronostico del cliente " + this.idSessio);
                 } else {
                     // Comunicacion con el servidor de pronosticos
                     executor.submit(solicitarPronostico);
@@ -105,12 +103,11 @@ public class ServidorHilo extends Thread {
             }
 
             // Devolvemos resultado al cliente
-            executor.shutdown();
             dos.writeUTF(response[0] + "\n" + response[1]);
+            executor.shutdown();
+            socket.close();
         } catch (Exception ex) {
             System.err.println(ex.getMessage());
         }
-
-        desconectar();
     }
 }

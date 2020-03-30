@@ -21,7 +21,7 @@ public class ServidorPronostico {
             while(true) {
                 // en espera de conexion, si existe la acepta
                 clientSocket = serverSocket.accept();
-                System.out.println("Nueva conexión entrante: " + clientSocket);
+                System.out.println("Nueva conexion entrante: " + clientSocket);
 
                 //Para leer lo que envie el cliente
                 BufferedReader input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
@@ -29,12 +29,12 @@ public class ServidorPronostico {
                 PrintStream output = new PrintStream(clientSocket.getOutputStream());
                 //se lee peticion del cliente
                 String request = input.readLine();
-                System.out.println("ServidorCentral> Pidió el pronóstico del día [" + request +  "]");
+                System.out.println("ServidorCentral> Pidio el pronostico del dia [" + request +  "]");
                 //se procesa la peticion y se espera resultado
                 String strOutput = process(request);
                 //Se imprime en consola "servidor"
-                System.out.println("Pronóstico> La siguiente información será devuelta");
-                System.out.println("Pronóstico> \"" + strOutput + "\"");
+                System.out.println("Pronostico> La siguiente informacion sera devuelta");
+                System.out.println("Pronostico> \"" + strOutput + "\"");
                 //se imprime en cliente
                 output.flush();//vacia contenido
                 output.println(strOutput);
@@ -52,7 +52,7 @@ public class ServidorPronostico {
      * @return String
      */
     public static String process(String request) {
-        String result = " El día ";
+        String result = " El dia ";
         int value = 0;
 
         Pattern patronFecha = Pattern.compile("(0?[1-9]|[12][0-9]|3[01])[- /.](0?[1-9]|1[012])[- /.](19\\d\\d|20\\d\\d)");

@@ -17,9 +17,8 @@ public class MainCliente {
         }
 
         try {
-            System.out.println("Cliente> Inicio");
             while( !exit ) {
-
+                System.out.println("Cliente inicia nueva sesion");
                 // direccion server y port por consola
                 socket = new Socket(servidor, PORT); // abre socket
 
@@ -35,20 +34,20 @@ public class MainCliente {
 
                 if (request.equals("exit")) {
                     exit = true;
-                    System.out.println("Cliente> Fin de programa");
-                } else {
-                    // manda peticion al servidor
-                    output.writeUTF(request);
-                    // captura respuesta e imprime
-                    String st = input.readUTF();
-                    if( st != null ) System.out.println("Servidor> " + st );
+                    System.out.println("Cliente finaliza sesion");
                 }
+
+                // manda peticion al servidor
+                output.writeUTF(request);
+                // captura respuesta e imprime
+                String st = input.readUTF();
+                if( st != null ) System.out.println("Servidor> " + st );
 
                 output.close();
                 socket.close();
             }
        } catch (IOException ex) {
-            System.err.println("Cliente> " + ex.getMessage());
+            System.err.println(ex.getMessage());
        }
     }
 }
