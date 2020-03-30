@@ -14,16 +14,18 @@ public class ServidorPronostico {
     public static void main(String[] args) {
 
         try {
+            //Socket de servidor para esperar peticiones de la red
             ServerSocket serverSocket = new ServerSocket(PORT);
             String ip = InetAddress.getLocalHost().getHostAddress();
             System.out.println("Inicializando servidor pronostico en el puerto " + PORT + " con IP " + ip + "\t[OK]");
 
             //Socket de cliente
             Socket clientSocket;
+            System.out.println("Pronostico> En espera de cliente...");
             while(true) {
                 // en espera de conexion, si existe la acepta
                 clientSocket = serverSocket.accept();
-                System.out.println("Nueva conexion entrante: " + clientSocket);
+                System.out.println("Pronostico> Nueva conexion entrante: " + clientSocket);
 
                 //Para leer lo que envie el cliente
                 BufferedReader input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));

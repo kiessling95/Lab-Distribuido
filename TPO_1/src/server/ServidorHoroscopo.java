@@ -11,14 +11,15 @@ public class ServidorHoroscopo {
     public static void main(String[] args) {
 
         try {
+            //Socket de servidor para esperar peticiones de la red
             ServerSocket serverSocket = new ServerSocket(PORT);
             String ip = InetAddress.getLocalHost().getHostAddress();
             System.out.println("Inicializando servidor horoscopo en el puerto " + PORT + " con IP " + ip + "\t[OK]");
 
-            //Socket de cliente
+            //Socket de cliente, en este caso el cliente sera el ServidorCentral
             Socket clientSocket;
             while(true) {
-                // en espera de conexion, si existe la acepta
+                // En espera de conexion, si existe la acepta
                 clientSocket = serverSocket.accept();
                 System.out.println("Nueva conexion entrante: " + clientSocket);
 
