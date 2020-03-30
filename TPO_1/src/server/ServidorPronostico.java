@@ -52,7 +52,7 @@ public class ServidorPronostico {
      * @return String
      */
     public static String process(String request) {
-        String result = " El dia ";
+        String result = " El pronostico del dia ";
         int value = 0;
 
         Pattern patronFecha = Pattern.compile("(0?[1-9]|[12][0-9]|3[01])[- /.](0?[1-9]|1[012])[- /.](19\\d\\d|20\\d\\d)");
@@ -69,81 +69,47 @@ public class ServidorPronostico {
         switch (value) {
             case 0:
                 result += 
-                "Temperatura : 15 - 35°C \n" +
-                "Cielo despejado \n" +
-                "Viento: Noreste 10 km/h \n" +
-                "Presión: 1001 hPa";
+                "Temperatura : 15 - 35°C - Cielo despejado - Viento: Noreste 10 km/h - Presión: 1001 hPa";
                 break;
             case 1:
                 result += 
-                "Temperatura : 9 - 20°C \n" +
-                "Nublado con tormentas \n" +
-                "Viento: Norte 32 km/h \n" +
-                "Presión: 1003 hPa";
+                "Temperatura : 9 - 20°C - Nublado con tormentas - Viento: Norte 32 km/h Presión: 1003 hPa";
                 break;
             case 2:
                 result +=
-                "Temperatura : 10 - 25°C \n" +
-                "Nublado con lluvias aisladas \n" +
-                "Viento: Este 40 km/h \n" +
-                "Presión: 1003 hPa";
+                "Temperatura : 10 - 25°C - Nublado con lluvias aisladas - Viento: Este 40 km/h - Presión: 1003 hPa";
                 break;
             case 3:
                 result +=
-                "Temperatura : 20 - 25,2°C \n" +
-                "Tormertas electricas \n" +
-                "Viento: Norte 50 km/h \n" +
-                "Presión: 1500 hPa";
+                "Temperatura : 20 - 25,2°C - Tormertas electricas - Viento: Norte 50 km/h - Presión: 1500 hPa";
                 break;
             case 4:
                 result +=
-                "Temperatura : 25,2°C \n" +
-                "Se espera Huracan \n" +
-                "Viento: Oeste 100 km/h \n" +
-                "Presión: 1200 hPa";
+                "Temperatura : 25,2°C - Se espera Huracan - Viento: Oeste 100 km/h - Presión: 1200 hPa";
                 break;
             case 5:
                 result +=
-                "Temperatura : 15 - 30°C \n" +
-                "Cielo despejado, el dia estara hermoso para quedarse en cuarentena \n" +
-                "Viento: Sureste 20 km/h \n" +
-                "Presión: 1003 hPa";
+                "Temperatura : 15 - 30°C - Cielo despejado, el dia estara hermoso para quedarse en cuarentena - Viento: Sureste 20 km/h - Presión: 1003 hPa";
                 break;
             case 6:
                 result += 
-                "Temperatura : -9 - 10°C \n" +
-                "Cielo algo nublado \n" +
-                "Viento: Sur 43 km/h \n" +
-                "Presión: 950 hPa";
-                 
+                "Temperatura : -9 - 10°C - Cielo algo nublado - Viento: Sur 43 km/h - Presión: 950 hPa";
                 break;
             case 7:
                 result +=
-                "Temperatura : 15 - 25°C \n" +
-                "Cielo nublado \n" +
-                "Viento: Suroeste 32 km/h \n" +
-                "Presión: 1003 hPa";
+                "Temperatura : 15 - 25°C - Cielo nublado - Viento: Suroeste 32 km/h - Presión: 1003 hPa";
                 break;
             case 8:
                 result +=
-                "Temperatura : 20 - 25,2°C \n" +
-                "Chaparrones durante la tarde noche\n" +
-                "Viento: Sur 10 km/h \n" +
-                "Presión: 1003 hPa";
+                "Temperatura : 20 - 25,2°C - Chaparrones durante la tarde noche - Viento: Sur 52 km/h - Presión: 1003 hPa";
                 break;
             case 9:
                 result +=
-                "Temperatura : 25 - 41°C \n" +
-                "Cielo despejado \n" +
-                "Viento: Norte 32 km/h \n" +
-                "Presión: 1003 hPa";
+                "Temperatura : 25 - 41°C - Cielo despejado - Viento: Norte 32 km/h - Presión: 1003 hPa";
                 break;
             default:
                 result +=
-                "Temperatura : 30 - 43°C \n" +
-                "Infierno en la tierra, evitar salir \n" +
-                "Viento: --  km/h \n" +
-                "Presión: 2000 hPa";
+                "Temperatura : 30 - 43°C - Infierno en la tierra, evitar salir - Viento: --  km/h - Presión: 2000 hPa";
         }
 
         try {
