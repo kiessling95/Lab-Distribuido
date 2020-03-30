@@ -2,7 +2,7 @@
 
 echo Ejecutando Cliente 
 
-java cliente/MainCliente $1 $2
+java cliente/MainCliente "localhost"
 
 
 
