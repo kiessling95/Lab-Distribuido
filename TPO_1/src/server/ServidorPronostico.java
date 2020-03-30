@@ -61,11 +61,8 @@ public class ServidorPronostico {
 
         Pattern patronFecha = Pattern.compile("(0?[1-9]|[12][0-9]|3[01])[- /.](0?[1-9]|1[012])[- /.](19\\d\\d|20\\d\\d)");
         Matcher matcher = patronFecha.matcher(request);
-
-        int day = Integer.parseInt(matcher.group(1));
-        int month = Integer.parseInt(matcher.group(2));
-        int year = Integer.parseInt(matcher.group(3));
-
+        
+       
         try {
             File file = new File("Pronosticos.xml");
             //an instance of factory that gives a document builder
@@ -76,7 +73,13 @@ public class ServidorPronostico {
             doc.getDocumentElement().normalize();
 
             NodeList nodeList = doc.getElementsByTagName("dia");
-            value = (day + month + year) % nodeList.getLength();
+            if(matcher.find()){
+                int day = Integer.parseInt(matcher.group(1));
+                int month = Integer.parseInt(matcher.group(2));
+                int year = Integer.parseInt(matcher.group(3));
+                value = (day + month + year) % nodeList.getLength();
+            }
+            //value = (day + month + year) % nodeList.getLength();
 
             Node node = nodeList.item(value);
 
