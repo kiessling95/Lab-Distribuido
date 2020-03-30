@@ -1,13 +1,8 @@
 package server;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.io.*;
+import java.net.*;
+import java.util.*;
 
 public class ServidorHoroscopo {
 
@@ -17,8 +12,8 @@ public class ServidorHoroscopo {
 
         try {
             ServerSocket serverSocket = new ServerSocket(PORT);
-            String ip = serverSocket.getInetAddress().toString().substring(1);
-            System.out.print("Inicializando servidor horoscopo en el puerto " + PORT + " IP: " + ip);
+            String ip = InetAddress.getLocalHost().getHostAddress();
+            System.out.println("Inicializando servidor horoscopo en el puerto " + PORT + " con IP " + ip + "\t[OK]");
 
             System.out.println("\t[OK]");
 

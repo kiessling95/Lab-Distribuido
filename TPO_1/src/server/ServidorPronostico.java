@@ -1,15 +1,9 @@
 package server;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.io.*;
+import java.net.*;
+import java.util.*;
+import java.util.regex.*;
 
 public class ServidorPronostico {
 
@@ -19,10 +13,8 @@ public class ServidorPronostico {
 
         try {
             ServerSocket serverSocket = new ServerSocket(PORT);
-            String ip = serverSocket.getInetAddress().toString().substring(1);
-            System.out.print("Inicializando servidor pronostico en el puerto " + PORT + " IP: " + ip);
-
-            System.out.println("\t[OK]");
+            String ip = InetAddress.getLocalHost().getHostAddress();
+            System.out.println("Inicializando servidor pronostico en el puerto " + PORT + " con IP " + ip + "\t[OK]");
 
             //Socket de cliente
             Socket clientSocket;

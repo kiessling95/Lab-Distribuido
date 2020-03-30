@@ -6,10 +6,12 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class ServidorCentral {
 
+    private final static int PORT = 10578;
+
     public static void main(String args[]) throws IOException {
         ServerSocket ss;
         ConcurrentHashMap<String, String> hm = new ConcurrentHashMap<>();
-        System.out.print("Inicializando servidor... ");
+
         String ipSH = "localhost";
         String ipSP = "localhost";
 
@@ -18,9 +20,12 @@ public class ServidorCentral {
             ipSP = args[1];
         }
 
+        System.out.println("Inicializando servidor en el puerto " + PORT);
+        System.out.println("IP del servidor de horoscopo: " + ipSH);
+        System.out.println("IP del servidor de pronostico: " + ipSP);
+
         try {
-            ss = new ServerSocket(10578);
-            System.out.println("\t[OK]");
+            ss = new ServerSocket(PORT);
             int idSession = 0;
             while (true) {
                 Socket socket;
