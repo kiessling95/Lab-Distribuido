@@ -32,7 +32,7 @@ public class MainCliente {
                 // captura comando escrito por el usuario
                 String request = brRequest.readLine();
 
-                if (request.equals("exit")) {
+                if (request.equalsIgnoreCase("exit")) {
                     exit = true;
                     System.out.println("Cliente finaliza sesion");
                 }

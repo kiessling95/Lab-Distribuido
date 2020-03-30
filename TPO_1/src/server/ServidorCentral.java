@@ -12,6 +12,7 @@ public class ServidorCentral {
         ServerSocket ss;
         ConcurrentHashMap<String, String> hm = new ConcurrentHashMap<>();
 
+        //default
         String ipSH = "localhost";
         String ipSP = "localhost";
 

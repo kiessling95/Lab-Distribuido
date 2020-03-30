@@ -68,37 +68,82 @@ public class ServidorPronostico {
 
         switch (value) {
             case 0:
-                result += "será soleado.";
+                result += 
+                "Temperatura : 15 - 35°C \n" +
+                "Cielo despejado \n" +
+                "Viento: Noreste 10 km/h \n" +
+                "Presión: 1001 hPa";
                 break;
             case 1:
-                result += "será ventoso.";
+                result += 
+                "Temperatura : 9 - 20°C \n" +
+                "Nublado con tormentas \n" +
+                "Viento: Norte 32 km/h \n" +
+                "Presión: 1003 hPa";
                 break;
             case 2:
-                result += "será lluvioso.";
+                result +=
+                "Temperatura : 10 - 25°C \n" +
+                "Nublado con lluvias aisladas \n" +
+                "Viento: Este 40 km/h \n" +
+                "Presión: 1003 hPa";
                 break;
             case 3:
-                result += "tendrá nevadas.";
+                result +=
+                "Temperatura : 20 - 25,2°C \n" +
+                "Tormertas electricas \n" +
+                "Viento: Norte 50 km/h \n" +
+                "Presión: 1500 hPa";
                 break;
             case 4:
-                result += "tendrá granizo.";
+                result +=
+                "Temperatura : 25,2°C \n" +
+                "Se espera Huracan \n" +
+                "Viento: Oeste 100 km/h \n" +
+                "Presión: 1200 hPa";
                 break;
             case 5:
-                result += "tendrá huracanes.";
+                result +=
+                "Temperatura : 15 - 30°C \n" +
+                "Cielo despejado, el dia estara hermoso para quedarse en cuarentena \n" +
+                "Viento: Sureste 20 km/h \n" +
+                "Presión: 1003 hPa";
                 break;
             case 6:
-                result += "estará nublado.";
+                result += 
+                "Temperatura : -9 - 10°C \n" +
+                "Cielo algo nublado \n" +
+                "Viento: Sur 43 km/h \n" +
+                "Presión: 950 hPa";
+                 
                 break;
             case 7:
-                result += "tendrá posibles lluvias.";
+                result +=
+                "Temperatura : 15 - 25°C \n" +
+                "Cielo nublado \n" +
+                "Viento: Suroeste 32 km/h \n" +
+                "Presión: 1003 hPa";
                 break;
             case 8:
-                result += "tendrá tormentas electricas.";
+                result +=
+                "Temperatura : 20 - 25,2°C \n" +
+                "Chaparrones durante la tarde noche\n" +
+                "Viento: Sur 10 km/h \n" +
+                "Presión: 1003 hPa";
                 break;
             case 9:
-                result += "tendrá nieblas.";
+                result +=
+                "Temperatura : 25 - 41°C \n" +
+                "Cielo despejado \n" +
+                "Viento: Norte 32 km/h \n" +
+                "Presión: 1003 hPa";
                 break;
             default:
-                result += "será indeterminado.";
+                result +=
+                "Temperatura : 30 - 43°C \n" +
+                "Infierno en la tierra, evitar salir \n" +
+                "Viento: --  km/h \n" +
+                "Presión: 2000 hPa";
         }
 
         try {
