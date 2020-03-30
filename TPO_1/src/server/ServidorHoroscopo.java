@@ -1,13 +1,8 @@
 package server;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.io.*;
+import java.net.*;
+import java.util.*;
 
 public class ServidorHoroscopo {
 
@@ -16,16 +11,16 @@ public class ServidorHoroscopo {
     public static void main(String[] args) {
 
         try {
-            System.out.print("Inicializando servidor horoscopo en el puerto " + PORT + "... ");
             ServerSocket serverSocket = new ServerSocket(PORT);
-            System.out.println("\t[OK]");
+            String ip = InetAddress.getLocalHost().getHostAddress();
+            System.out.println("Inicializando servidor horoscopo en el puerto " + PORT + " con IP " + ip + "\t[OK]");
 
             //Socket de cliente
             Socket clientSocket;
             while(true) {
                 // en espera de conexion, si existe la acepta
                 clientSocket = serverSocket.accept();
-                System.out.println("Nueva conexión entrante: " + clientSocket);
+                System.out.println("Nueva conexion entrante: " + clientSocket);
 
                 //Para leer lo que envie el cliente
                 BufferedReader input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
@@ -33,12 +28,12 @@ public class ServidorHoroscopo {
                 PrintStream output = new PrintStream(clientSocket.getOutputStream());
                 //se lee peticion del cliente
                 String request = input.readLine();
-                System.out.println("ServidorCentral> Pidió la predicción del siguiente signo [" + request +  "]");
+                System.out.println("ServidorCentral> Pidio la prediccion del siguiente signo [" + request +  "]");
                 //se procesa la peticion y se espera resultado
                 String strOutput = process(request);
                 //Se imprime en consola "servidor"
-                System.out.println("Horóscopo> La siguiente informacion será devuelta");
-                System.out.println("Horócopo> \"" + strOutput + "\"");
+                System.out.println("Horoscopo> La siguiente informacion sera devuelta");
+                System.out.println("Horocopo> \"" + strOutput + "\"");
                 //se imprime en cliente
                 output.flush();//vacia contenido
                 output.println(strOutput);

@@ -1,0 +1,10 @@
+## Secuencia para la ejecución de los script en linux
+
+En la terminal desde la carpeta src (se puede poner la direccion en el script pero varia segun la maquina)
+
+1 ./script-Carga-Servidores (ejecuta todos los Servidores abriendo diferentes terminales)
+2 ./script-Cliente direccion-Server ( localhost o ip ) puerto (10578)
+
+Realizar consulta pronostico y/o horoscopo
+
+de realizarse ambas en una sola consulta atendera el horoscopo antes que el pronostico sin importar el orden

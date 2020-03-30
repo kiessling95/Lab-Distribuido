@@ -1,0 +1,7 @@
+#!/bin/bash
+
+javac cliente/MainCliente.java
+
+echo Ejecutando ServidorCentral
+
+java server/ServidorCentral

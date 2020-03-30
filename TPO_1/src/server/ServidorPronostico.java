@@ -1,15 +1,9 @@
 package server;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.io.*;
+import java.net.*;
+import java.util.*;
+import java.util.regex.*;
 
 public class ServidorPronostico {
 
@@ -18,16 +12,16 @@ public class ServidorPronostico {
     public static void main(String[] args) {
 
         try {
-            System.out.print("Inicializando servidor pronostico en el puerto " + PORT + "... ");
             ServerSocket serverSocket = new ServerSocket(PORT);
-            System.out.println("\t[OK]");
+            String ip = InetAddress.getLocalHost().getHostAddress();
+            System.out.println("Inicializando servidor pronostico en el puerto " + PORT + " con IP " + ip + "\t[OK]");
 
             //Socket de cliente
             Socket clientSocket;
             while(true) {
                 // en espera de conexion, si existe la acepta
                 clientSocket = serverSocket.accept();
-                System.out.println("Nueva conexión entrante: " + clientSocket);
+                System.out.println("Nueva conexion entrante: " + clientSocket);
 
                 //Para leer lo que envie el cliente
                 BufferedReader input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
@@ -35,12 +29,12 @@ public class ServidorPronostico {
                 PrintStream output = new PrintStream(clientSocket.getOutputStream());
                 //se lee peticion del cliente
                 String request = input.readLine();
-                System.out.println("ServidorCentral> Pidió el pronóstico del día [" + request +  "]");
+                System.out.println("ServidorCentral> Pidio el pronostico del dia [" + request +  "]");
                 //se procesa la peticion y se espera resultado
                 String strOutput = process(request);
                 //Se imprime en consola "servidor"
-                System.out.println("Pronóstico> La siguiente información será devuelta");
-                System.out.println("Pronóstico> \"" + strOutput + "\"");
+                System.out.println("Pronostico> La siguiente informacion sera devuelta");
+                System.out.println("Pronostico> \"" + strOutput + "\"");
                 //se imprime en cliente
                 output.flush();//vacia contenido
                 output.println(strOutput);
@@ -58,7 +52,7 @@ public class ServidorPronostico {
      * @return String
      */
     public static String process(String request) {
-        String result = " El día ";
+        String result = " El pronostico del dia ";
         int value = 0;
 
         Pattern patronFecha = Pattern.compile("(0?[1-9]|[12][0-9]|3[01])[- /.](0?[1-9]|1[012])[- /.](19\\d\\d|20\\d\\d)");
@@ -74,37 +68,48 @@ public class ServidorPronostico {
 
         switch (value) {
             case 0:
-                result += "será soleado.";
+                result += 
+                "Temperatura : 15 - 35°C - Cielo despejado - Viento: Noreste 10 km/h - Presión: 1001 hPa";
                 break;
             case 1:
-                result += "será ventoso.";
+                result += 
+                "Temperatura : 9 - 20°C - Nublado con tormentas - Viento: Norte 32 km/h Presión: 1003 hPa";
                 break;
             case 2:
-                result += "será lluvioso.";
+                result +=
+                "Temperatura : 10 - 25°C - Nublado con lluvias aisladas - Viento: Este 40 km/h - Presión: 1003 hPa";
                 break;
             case 3:
-                result += "tendrá nevadas.";
+                result +=
+                "Temperatura : 20 - 25,2°C - Tormertas electricas - Viento: Norte 50 km/h - Presión: 1500 hPa";
                 break;
             case 4:
-                result += "tendrá granizo.";
+                result +=
+                "Temperatura : 25,2°C - Se espera Huracan - Viento: Oeste 100 km/h - Presión: 1200 hPa";
                 break;
             case 5:
-                result += "tendrá huracanes.";
+                result +=
+                "Temperatura : 15 - 30°C - Cielo despejado, el dia estara hermoso para quedarse en cuarentena - Viento: Sureste 20 km/h - Presión: 1003 hPa";
                 break;
             case 6:
-                result += "estará nublado.";
+                result += 
+                "Temperatura : -9 - 10°C - Cielo algo nublado - Viento: Sur 43 km/h - Presión: 950 hPa";
                 break;
             case 7:
-                result += "tendrá posibles lluvias.";
+                result +=
+                "Temperatura : 15 - 25°C - Cielo nublado - Viento: Suroeste 32 km/h - Presión: 1003 hPa";
                 break;
             case 8:
-                result += "tendrá tormentas electricas.";
+                result +=
+                "Temperatura : 20 - 25,2°C - Chaparrones durante la tarde noche - Viento: Sur 52 km/h - Presión: 1003 hPa";
                 break;
             case 9:
-                result += "tendrá nieblas.";
+                result +=
+                "Temperatura : 25 - 41°C - Cielo despejado - Viento: Norte 32 km/h - Presión: 1003 hPa";
                 break;
             default:
-                result += "será indeterminado.";
+                result +=
+                "Temperatura : 30 - 43°C - Infierno en la tierra, evitar salir - Viento: --  km/h - Presión: 2000 hPa";
         }
 
         try {
