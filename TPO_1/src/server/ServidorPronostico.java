@@ -19,9 +19,8 @@ public class ServidorPronostico {
             String ip = InetAddress.getLocalHost().getHostAddress();
             System.out.println("Inicializando servidor pronostico en el puerto " + PORT + " con IP " + ip + "\t[OK]");
 
-            //Socket de cliente
+            //Socket de cliente, en este caso el cliente sera el ServidorCentral
             Socket clientSocket;
-            System.out.println("Pronostico> En espera de cliente...");
             while(true) {
                 // en espera de conexion, si existe la acepta
                 clientSocket = serverSocket.accept();
@@ -37,8 +36,7 @@ public class ServidorPronostico {
                 //se procesa la peticion y se espera resultado
                 String strOutput = process(request);
                 //Se imprime en consola "servidor"
-                System.out.println("Pronostico> La siguiente informacion sera devuelta");
-                System.out.println("Pronostico> \"" + strOutput + "\"");
+                System.out.println("Pronostico> La siguiente informacion sera devuelta: \"" + strOutput + "\"");
                 //se imprime en cliente
                 output.flush();//vacia contenido
                 output.println(strOutput);
@@ -59,9 +57,8 @@ public class ServidorPronostico {
         String result = "El pronostico del dia: ";
         int value = 0;
 
-        Pattern patronFecha = Pattern.compile("(0?[1-9]|[12][0-9]|3[01])[- /.](0?[1-9]|1[012])[- /.](19\\d\\d|20\\d\\d)");
+        Pattern patronFecha = Pattern.compile("(0?[1-9]|[12][0-9]|3[01])[- /.](0?[1-9]|1[012])[- /.](\\d{2,4})");
         Matcher matcher = patronFecha.matcher(request);
-        
        
         try {
             File file = new File("Pronosticos.xml");
@@ -74,13 +71,12 @@ public class ServidorPronostico {
 
             NodeList nodeList = doc.getElementsByTagName("dia");
             matcher.find();
+
             int day = Integer.parseInt(matcher.group(1));
             int month = Integer.parseInt(matcher.group(2));
             int year = Integer.parseInt(matcher.group(3));
+
             value = (day + month + year) % nodeList.getLength();
-            
-            
-            //value = (day + month + year) % nodeList.getLength();
 
             Node node = nodeList.item(value);
 
@@ -99,7 +95,7 @@ public class ServidorPronostico {
         }
 
         try {
-            Thread.sleep(6000);
+            Thread.sleep((long) (Math.random()*(6000-1000)+1000));
         } catch (InterruptedException ex) {
             System.err.println(ex.getMessage());
         }

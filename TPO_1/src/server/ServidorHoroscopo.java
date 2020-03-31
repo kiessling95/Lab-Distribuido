@@ -1,6 +1,7 @@
 package server;
 
 import java.io.*;
+import java.nio.file.*;
 import java.net.*;
 import java.util.*;
 
@@ -18,10 +19,10 @@ public class ServidorHoroscopo {
 
             //Socket de cliente, en este caso el cliente sera el ServidorCentral
             Socket clientSocket;
-            while(true) {
+            while (true) {
                 // En espera de conexion, si existe la acepta
                 clientSocket = serverSocket.accept();
-                System.out.println("Nueva conexion entrante: " + clientSocket);
+                System.out.println("Horoscopo> Nueva conexion entrante: " + clientSocket);
 
                 //Para leer lo que envie el cliente
                 BufferedReader input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
@@ -29,12 +30,11 @@ public class ServidorHoroscopo {
                 PrintStream output = new PrintStream(clientSocket.getOutputStream());
                 //se lee peticion del cliente
                 String request = input.readLine();
-                System.out.println("ServidorCentral> Pidio la prediccion del siguiente signo [" + request +  "]");
+                System.out.println("ServidorCentral> Pidio la prediccion del signo [" + request +  "]");
                 //se procesa la peticion y se espera resultado
                 String strOutput = process(request);
                 //Se imprime en consola "servidor"
-                System.out.println("Horoscopo> La siguiente informacion sera devuelta");
-                System.out.println("Horocopo> \"" + strOutput + "\"");
+                System.out.println("Horoscopo> La siguiente informacion sera devuelta: \"" + strOutput + "\"");
                 //se imprime en cliente
                 output.flush();//vacia contenido
                 output.println(strOutput);
@@ -53,49 +53,21 @@ public class ServidorHoroscopo {
      */
     public static String process(String request) {
         String result = "";
-        File archivo = null;
-        FileReader fr = null;
-        BufferedReader br = null;
+        ArrayList<String> phrasesList = new ArrayList<>();
+
+        try (BufferedReader reader = Files.newBufferedReader(Paths.get("Horoscopo.txt"))) {
+            reader.lines().forEach(phrasesList::add);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
+        Collections.addAll(phrasesList);
+        Collections.shuffle(phrasesList);
+
+        result = phrasesList.get(0);
 
         try {
-            try {
-                archivo = new File ("Horoscopo.txt");
-                System.out.println(archivo.getAbsolutePath());
-                fr = new FileReader(archivo);
-                br = new BufferedReader(fr);
-                
-                // Lectura del fichero
-
-                String linea;
-                ArrayList<String> phrasesList = new ArrayList<String>();
-                while((linea=br.readLine())!=null){
-                    phrasesList.add(linea);
-                }
-                Collections.addAll(phrasesList);
-
-                Collections.shuffle(phrasesList);
-
-                result = phrasesList.get(0);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                //TODO: handle exception
-            }finally{
-                // En el finally cerramos el fichero, para asegurarnos
-                // que se cierra tanto si todo va bien como si salta 
-                // una excepcion.
-                try{                    
-                   if( null != fr ){   
-                      fr.close();     
-                   }                  
-                }catch (Exception e2){ 
-                   e2.printStackTrace();
-                }
-             }
-            
-            
-            
-            Thread.sleep(5000);
+            Thread.sleep((long) (Math.random()*(6000-1000)+1000));
         } catch (InterruptedException ex) {
             System.err.println(ex.getMessage());
         }

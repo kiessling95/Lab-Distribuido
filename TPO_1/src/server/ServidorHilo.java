@@ -20,7 +20,7 @@ public class ServidorHilo extends Thread {
         this.socket = socket;
         this.idSessio = id;
         this.hm = hashmap;
-        this.patronFecha = Pattern.compile("(0?[1-9]|[12][0-9]|3[01])[- /.](0?[1-9]|1[012])[- /.]\\d?\\d?(\\d{2})");
+        this.patronFecha = Pattern.compile("\\b(0?[1-9]|[12][0-9]|3[01])[- /.](0?[1-9]|1[012])[- /.](\\d{2,4})\\b");
         this.patronSigno = Pattern.compile("aries|tauro|geminis|cancer|leo|virgo|libra|escorpio|sagitario|capricornio|acuario|piscis",
                 Pattern.CASE_INSENSITIVE);
         this.ipServidorHoroscopo = ipSH;
@@ -38,6 +38,7 @@ public class ServidorHilo extends Thread {
     public void run() {
         String request = "";
         String fecha = "";
+        String fechaNormalizada = "";
         String signo = "";
         String[] response = new String[2];
         FutureTask<String> solicitarHoroscopo = new FutureTask<String>(new Peticion ("", "", 0));
@@ -73,7 +74,7 @@ public class ServidorHilo extends Thread {
                     executor.submit(solicitarHoroscopo);
                 }
             } else {
-                response[0] = new String("");
+                response[0] = new String("No se detecto ningun signo o fue escrito incorrectamente.");
             }
 
             if (escanearFecha.find()) {
@@ -82,17 +83,21 @@ public class ServidorHilo extends Thread {
                 System.out.println("Pronostico del dia [" + fecha + "] solicitado por el cliente " + this.idSessio);
                 solicitarPronostico = new FutureTask<String>(new Peticion(fecha, ipServidorPronostico, 7000));
 
-                // si esta en cache , caso contrario lo solicita al server 
-                if(hm.containsKey(fecha)) {
-                    response[1] = new String(hm.get(fecha));
+                // si esta en cache la extraigo, sino la solicito
+                fechaNormalizada = fecha.replaceAll("[^0-9]","");
+                if (hm.containsKey(fechaNormalizada)) {
+                    response[1] = new String(hm.get(fechaNormalizada));
                     System.out.println("Se accedio a cache para recuperar el pronostico del cliente " + this.idSessio);
                 } else {
                     // Comunicacion con el servidor de pronosticos
                     executor.submit(solicitarPronostico);
                 }
             } else {
-                response[1] = new String("");
+                response[1] = new String("No se detecto ninguna fecha o fue escrita incorrectamente.");
             }
+
+            // Los "futuros" fueron a buscar los datos, a continuacion se los almacena pero
+            // si la matriz ya fue generada significa que ya estaban el buffer o hubo un error!
 
             if (response[0] == null) {
                 response[0] = new String(solicitarHoroscopo.get());
@@ -101,7 +106,7 @@ public class ServidorHilo extends Thread {
 
             if (response[1] == null) {
                 response[1] = new String(solicitarPronostico.get());
-                hm.put(fecha, response[1]);
+                hm.put(fechaNormalizada, response[1]);
             }
 
             // Devolvemos resultado al cliente
