@@ -69,10 +69,19 @@ public class ServidorPronostico {
             doc.getDocumentElement().normalize();
 
             NodeList nodeList = doc.getElementsByTagName("dia");
-    
-            int day = Integer.parseInt(request.substring(0, 2));
-            int month = Integer.parseInt(request.substring(3, 5));
-            int year = Integer.parseInt(request.substring(6, 10));
+            int primero,segundo;
+            primero = request.indexOf("/");
+            if(primero== -1){
+                primero = request.indexOf('-');
+            }
+            segundo = request.indexOf("/", primero+1);
+            if(segundo== -1){
+                segundo = request.indexOf('-',primero+1);
+            }
+
+            int day = Integer.parseInt(request.substring(0,primero));
+            int month = Integer.parseInt(request.substring(primero+1, segundo));
+            int year = Integer.parseInt(request.substring(segundo+1));
             value = (day + month + year) % nodeList.getLength();
 
             Node node = nodeList.item(value);
