@@ -57,11 +57,7 @@ public class ServidorPronostico {
      */
     public static String process(String request) {
         String result = "El pronostico del dia: ";
-        int value = 0;
-
-        Pattern patronFecha = Pattern.compile("(0?[1-9]|[12][0-9]|3[01])[- /.](0?[1-9]|1[012])[- /.](19\\d\\d|20\\d\\d)");
-        Matcher matcher = patronFecha.matcher(request);
-        
+        int value = 0; 
        
         try {
             File file = new File("Pronosticos.xml");
@@ -73,13 +69,11 @@ public class ServidorPronostico {
             doc.getDocumentElement().normalize();
 
             NodeList nodeList = doc.getElementsByTagName("dia");
-            if(matcher.find()){
-                int day = Integer.parseInt(matcher.group(1));
-                int month = Integer.parseInt(matcher.group(2));
-                int year = Integer.parseInt(matcher.group(3));
-                value = (day + month + year) % nodeList.getLength();
-            }
-            //value = (day + month + year) % nodeList.getLength();
+    
+            int day = Integer.parseInt(request.substring(0, 2));
+            int month = Integer.parseInt(request.substring(3, 5));
+            int year = Integer.parseInt(request.substring(6, 10));
+            value = (day + month + year) % nodeList.getLength();
 
             Node node = nodeList.item(value);
 

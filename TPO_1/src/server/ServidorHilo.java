@@ -64,10 +64,10 @@ public class ServidorHilo extends Thread {
                 System.out.println("Prediccion del signo [" + signo + "] solicitada por el cliente " + this.idSessio);
                 solicitarHoroscopo = new FutureTask<String>(new Peticion(signo, ipServidorHoroscopo, 8000));
 
-                // si esta en el buffer , caso contrario lo solicita al server 
+                // si esta en cache , caso contrario lo solicita al server 
                 if (hm.containsKey(signo)) {
                     response[0] = new String(hm.get(signo));
-                    System.out.println("Se accedio al buffer para recuperar la prediccion del cliente " + this.idSessio);
+                    System.out.println("Se accedio a cache para recuperar la prediccion del cliente " + this.idSessio);
                 } else {
                     // Comunicacion con el servidor del horoscopo
                     executor.submit(solicitarHoroscopo);
@@ -82,10 +82,10 @@ public class ServidorHilo extends Thread {
                 System.out.println("Pronostico del dia [" + fecha + "] solicitado por el cliente " + this.idSessio);
                 solicitarPronostico = new FutureTask<String>(new Peticion(fecha, ipServidorPronostico, 7000));
 
-                // si esta en el buffer , caso contrario lo solicita al server 
+                // si esta en cache , caso contrario lo solicita al server 
                 if(hm.containsKey(fecha)) {
                     response[1] = new String(hm.get(fecha));
-                    System.out.println("Se accedio al buffer para recuperar el pronostico del cliente " + this.idSessio);
+                    System.out.println("Se accedio a cache para recuperar el pronostico del cliente " + this.idSessio);
                 } else {
                     // Comunicacion con el servidor de pronosticos
                     executor.submit(solicitarPronostico);
