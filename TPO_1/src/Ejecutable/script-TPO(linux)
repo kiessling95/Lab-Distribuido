@@ -1,0 +1,11 @@
+#!/bin/bash
+
+echo Ejecutando Servidores y Cliente:
+
+gnome-terminal -- java -cp ./TPO.jar server.ServidorCentral
+
+gnome-terminal -- java -cp ./TPO.jar server.ServidorHoroscopo
+
+gnome-terminal -- java -cp ./TPO.jar server.ServidorPronostico
+
+gnome-terminal -- java -cp ./TPO.jar cliente.MainCliente 'localhost'
