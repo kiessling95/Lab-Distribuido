@@ -39,6 +39,7 @@ public class ServidorHilo extends Thread {
         String request = "";
         String fecha = "";
         String fechaNormalizada = "";
+        String signoNormalizada = "";
         String signo = "";
         String[] response = new String[2];
         FutureTask<String> solicitarHoroscopo = new FutureTask<String>(new Peticion ("", "", 0));
@@ -66,8 +67,9 @@ public class ServidorHilo extends Thread {
                 solicitarHoroscopo = new FutureTask<String>(new Peticion(signo, ipServidorHoroscopo, 8000));
 
                 // si esta en cache , caso contrario lo solicita al server 
-                if (hm.containsKey(signo)) {
-                    response[0] = new String(hm.get(signo));
+                signoNormalizada = signo.toLowerCase();
+                if (hm.containsKey(signoNormalizada)) {
+                    response[0] = new String(hm.get(signoNormalizada));
                     System.out.println("Se accedio a cache para recuperar la prediccion del cliente " + this.idSessio);
                 } else {
                     // Comunicacion con el servidor del horoscopo
@@ -101,7 +103,7 @@ public class ServidorHilo extends Thread {
 
             if (response[0] == null) {
                 response[0] = new String(solicitarHoroscopo.get());
-                hm.put(signo, response[0]);
+                hm.put(signoNormalizada, response[0]);
             }
 
             if (response[1] == null) {
