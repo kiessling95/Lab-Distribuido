@@ -1,0 +1,3 @@
+grant codeBase "file:/home/german/Escritorio/Lab-Distribuido/TP2-RMI/src/" {
+    permission java.security.AllPermission;
+};
