@@ -1,6 +1,6 @@
-import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
 import java.rmi.*;
+import java.rmi.server.*;
+import java.rmi.registry.*;
 
 import java.io.*;
 import java.util.regex.*;
@@ -10,72 +10,65 @@ import org.w3c.dom.*;
 
 public class ServidorPronostico extends UnicastRemoteObject implements ServiciosPronostico {
 
-    private static final long serialVersionUID = 1L;
     protected ServidorPronostico() throws RemoteException {
-
         super();
-
     }
 
     /**
-    * @param args argumentos de la linea de comando
-    * @param args[0] una direccion IP (localhost es valido)
-    * @param args[1] un numero de puerto (debe tener asociado un servicio RMI Registry)
-    */
-
+     * @param args argumentos de la linea de comando
+     * @param args[0] una direccion IP (localhost es valido)
+     * @param args[1] un numero de puerto (debe tener asociado un servicio RMI Registry)
+     */
     public static void main(String[] args) { 
         // Si no se ingresan la cantidad de parametros correctos
-        if (args.length != 2) { 
-            System.err.println("Uso: Ingresar IP y Puerto");
+        if (args.length < 2) { 
+            System.err.println("Uso: ServidorPronostico IPLocal PuertoLocal");
             return;
-        }
-        if (System.getSecurityManager() == null) {
-            // System.setSecurityManager(new RMISecurityManager()); 
-            System.setProperty("java.rmi.server.hostname", "localhost");
         }
 
         try {
             // Se instancian los servicios
             ServiciosPronostico serv = new ServidorPronostico(); 
+            
+            LocateRegistry.createRegistry(Integer.parseInt(args[1]));
+            
             // Se asocia una URL a la IP y puerto de los parametros
             Naming.rebind("rmi://" + args[0] + ":" + args[1] + "/ServidorPronostico",serv); 
 
-            catch (RemoteException e) {
-                System.err.println("Error de comunicacion: " + e.toString());
-                System.exit(1); }
-            catch (Exception e) {
-                System.err.println("Excepcion en ServidorEco:");
-                e.printStackTrace();
-                System.exit(1); }
-            }
+        } catch (RemoteException e) {
+            System.err.println("Error de comunicacion: " + e.toString());
+            System.exit(1); 
+        } catch (Exception e) {
+            System.err.println("Excepcion en Servidor:");
+            e.printStackTrace();
+            System.exit(1); 
+        }
     }
 
-
     /**
-    * @param consulta una fecha 
-    * @return una predicción del tiempo acorde a la fecha enviada por parametro
-    */
-
+     * @param request una fecha de consulta
+     * @return una predicción del tiempo acorde a la fecha enviada por parametro
+     */
     @Override
     public String consultarPronostico(String request) throws RemoteException {
       
         String respuesta = "Consulta recibida";
 
-        System.out.println("Cliente> petición [" + request + "]");
+        System.out.println("Cliente> peticion [" + request + "]");
 
         respuesta = process(request); // Se procesa la consulta para obtener la prediccion
 
 
-        System.out.println("Pronostico> Resultado de petición");
+        System.out.println("Pronostico> Resultado de peticion");
         System.out.println("Pronostico> \"" + respuesta + "\"");
 
-        return respuesta; // Se devuelve la predicción
+        return respuesta; // Se devuelve la prediccion
     }
 
-     /**
-     * procesa peticion del cliente y retorna resultado
+    /**
+     * Procesa la peticion del cliente y retorna un resultado.
      * @param request peticion del cliente
-     * @return String
+     * @return el pronostico para el dia solicitado
      */
     public static String process(String request) {
         String result = "El pronostico del dia: ";
@@ -126,6 +119,5 @@ public class ServidorPronostico extends UnicastRemoteObject implements Servicios
 
         return result;
     }
-    
 }
 

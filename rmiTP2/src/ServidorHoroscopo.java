@@ -1,38 +1,34 @@
-import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
+import java.rmi.*;
+import java.rmi.server.*;
+import java.rmi.registry.*;
+
 import java.io.*;
 import java.nio.file.*;
-import java.rmi.*;
 import java.util.*;
 
 public class ServidorHoroscopo extends UnicastRemoteObject implements ServiciosHoroscopo {
 
-    private static final long serialVersionUID = 1L;
-
     protected ServidorHoroscopo() throws RemoteException {
-
         super();
-
     }
 
     /**
-    * @param args argumentos de la linea de comando 
-    * @param args[0] una direccion IP (localhost es valido)
-    * @param args[1] un numero de puerto (debe tener asociado un servicio RMI Registry)
-    */
-
+     * @param args argumentos de la linea de comando 
+     * @param args[0] una direccion IP (localhost es valido)
+     * @param args[1] un numero de puerto (debe tener asociado un servicio RMI Registry)
+     */
     public static void main(String[] args) {
-        if (args.length != 2) { // Si no se ingresan la cantidad de parametros correctos
-            System.err.println("Uso: Ingresar IP y Puerto");
+        if (args.length < 2) { // Si no se ingresan la cantidad de parametros correctos
+            System.err.println("Uso: ServidorHoroscopo IPLocal PuertoLocal");
             return;
         }
-        /*if (System.getSecurityManager() == null) {
-            System.setSecurityManager(new RMISecurityManager()); 
-            System.setProperty("java.rmi.server.hostname", "localhost");
-        }*/
+
         try {
 			// Se instancian los servicios
 			ServiciosHoroscopo serv = new ServidorHoroscopo(); 
+            
+            LocateRegistry.createRegistry(Integer.parseInt(args[1]));
+            
 			// Se asocia una URL a la IP y puerto de los parametros
             Naming.rebind("rmi://" + args[0] + ":" + args[1] + "/ServidorHoroscopo",serv); 
 
@@ -47,32 +43,30 @@ public class ServidorHoroscopo extends UnicastRemoteObject implements ServiciosH
     }
 
     /**
-	* @param consulta es un signo del horoscopo
-	* @return una predicción acorde al signo enviado por parametro
-    */
-
+	 * @param consulta es un signo del horoscopo
+	 * @return una prediccion acorde al signo enviado por parametro
+     */
     @Override
     public String consultarHoroscopo(String request) throws RemoteException {
 		String respuesta = "Consulta recibida"; 
 
-		System.out.println("Cliente> petición [" + request + "]");
+		System.out.println("Cliente> peticion [" + request + "]");
 
 		//se procesa la peticion y se espera resultado
 		respuesta = process(request); 
 
 
-		System.out.println("Horoscopo> Resultado de petición");
+		System.out.println("Horoscopo> Resultado de peticion");
 		System.out.println("Horoscopo> \"" + request + "\"");
 
 		return respuesta; // Devuelve la predicción
     }
 
     /**
-     * procesa peticion del cliente y retorna resultado
+     * Procesa peticion del cliente y retorna un resultado
      * @param request peticion del cliente
-     * @return String
-     */
-    
+     * @return una prediccion para la entrada enviada
+     */ 
     public String process(String request) { 
 	        
 		String result = "";
