@@ -15,8 +15,9 @@ public class ServidorHilo extends Thread {
     private Pattern patronSigno, patronFecha;
     private ConcurrentHashMap<String,String> hm;
     private String ipServidorHoroscopo, ipServidorPronostico;
+    private int portSH, portSP;
 
-    public ServidorHilo(Socket socket, int id, ConcurrentHashMap<String,String> hashmap, String ipSH, String ipSP) {
+    public ServidorHilo(Socket socket, int id, ConcurrentHashMap<String,String> hashmap, String ipSH, String ipSP,int portSH, int portSP) {
         this.socket = socket;
         this.idSessio = id;
         this.hm = hashmap;
@@ -25,6 +26,8 @@ public class ServidorHilo extends Thread {
                 Pattern.CASE_INSENSITIVE);
         this.ipServidorHoroscopo = ipSH;
         this.ipServidorPronostico = ipSP;
+        this.portSH=portSH;
+        this.portSP=portSP;
 
         try {
             dos = new DataOutputStream(socket.getOutputStream());
@@ -64,7 +67,7 @@ public class ServidorHilo extends Thread {
                 signo = escanearSigno.group();
 
                 System.out.println("Prediccion del signo [" + signo + "] solicitada por el cliente " + this.idSessio);
-                solicitarHoroscopo = new FutureTask<String>(new Peticion(signo, ipServidorHoroscopo, 8000));
+                solicitarHoroscopo = new FutureTask<String>(new Peticion(signo, ipServidorHoroscopo, portSH));
 
                 // si esta en cache , caso contrario lo solicita al server 
                 signoNormalizada = signo.toLowerCase();
@@ -83,7 +86,7 @@ public class ServidorHilo extends Thread {
                 fecha = escanearFecha.group();
 
                 System.out.println("Pronostico del dia [" + fecha + "] solicitado por el cliente " + this.idSessio);
-                solicitarPronostico = new FutureTask<String>(new Peticion(fecha, ipServidorPronostico, 7000));
+                solicitarPronostico = new FutureTask<String>(new Peticion(fecha, ipServidorPronostico, portSP));
 
                 // si esta en cache la extraigo, sino la solicito
                 fechaNormalizada = fecha.replaceAll("[^0-9]","");

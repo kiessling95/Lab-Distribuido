@@ -3,17 +3,21 @@ package cliente;
 import java.io.*;
 import java.net.Socket;
 
-public class MainCliente {
-
-    private final static int PORT = 10578;
+public class MainCliente 
 
     public static void main(String[] args) {
         boolean exit = false;   // bandera para controlar ciclo del programa
         Socket socket;          // socket para la comunicacion cliente servidor
+
+        // Por default 
         String servidor = "localhost";
+        int PORT=10578;
 
         if (args.length != 0) {
+            // cargo ip server parametro 
             servidor = args[0];
+            // cargo puserto server parametro 
+            PORT = Integer.parseInt(args[1]);
         }
 
         try {
