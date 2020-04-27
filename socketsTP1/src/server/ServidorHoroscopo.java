@@ -8,23 +8,25 @@ import java.util.*;
 public class ServidorHoroscopo {
 
     public static void main(String[] args) {
+        int port;
+
+        if (args.length == 1) {
+            // cargo puerto server parametro 
+            port = Integer.parseInt(args[0]);
+        } else {
+            System.out.println("Uso: ServidorHoroscopo [puerto]");
+
+            return;
+        }
 
         try {
-            // Por default 
+            // Obtengo ip local
             String ip = InetAddress.getLocalHost().getHostAddress();
-            int PORT=8000;
-
-            if (args.length != 0) {
-                // cargo ip server parametro 
-                ip = args[0];
-                // cargo puserto server parametro 
-                PORT = Integer.parseInt(args[1]);
-            }
 
             //Socket de servidor para esperar peticiones de la red
             ServerSocket serverSocket = new ServerSocket(PORT);
 
-            System.out.println("Inicializando servidor horoscopo en el puerto " + PORT + " con IP " + ip + "\t[OK]");
+            System.out.println("Inicializando servidor horoscopo en el puerto: " + port + " con IP: " + ip + "\t[OK]");
 
             //Socket de cliente, en este caso el cliente sera el ServidorCentral
             Socket clientSocket;
@@ -56,7 +58,7 @@ public class ServidorHoroscopo {
     }
 
     /**
-     * procesa peticion del cliente y retorna resultado
+     * Procesa la peticion del cliente y retorna un resultado
      * @param request peticion del cliente
      * @return String
      */
@@ -75,6 +77,7 @@ public class ServidorHoroscopo {
 
         result = phrasesList.get(0);
 
+        // simulamos un retardo
         try {
             Thread.sleep((long) (Math.random()*(6000-1000)+1000));
         } catch (InterruptedException ex) {

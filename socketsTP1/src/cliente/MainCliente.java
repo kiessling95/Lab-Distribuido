@@ -3,31 +3,33 @@ package cliente;
 import java.io.*;
 import java.net.Socket;
 
-public class MainCliente 
+public class MainCliente {
 
     public static void main(String[] args) {
         boolean exit = false;   // bandera para controlar ciclo del programa
         Socket socket;          // socket para la comunicacion cliente servidor
+        String server;
+        int port;
 
-        // Por default 
-        String servidor = "localhost";
-        int PORT=10578;
-
-        if (args.length != 0) {
+        if (args.length == 2) {
             // cargo ip server parametro 
-            servidor = args[0];
-            // cargo puserto server parametro 
-            PORT = Integer.parseInt(args[1]);
+            server = args[0];
+            // cargo puerto server parametro 
+            port   = Integer.parseInt(args[1]);
+        } else {
+            System.out.println("Uso: MainCliente [servidor puerto]");
+
+            return;
         }
 
         try {
-            while( !exit ) {
+            while (!exit) {
                 System.out.println("Cliente inicia nueva sesion");
                 // direccion server y port por consola
-                socket = new Socket(servidor, PORT); // abre socket
+                socket = new Socket(server, port); // abre socket
 
                 DataOutputStream output = new DataOutputStream(socket.getOutputStream());
-                DataInputStream input = new DataInputStream(socket.getInputStream());
+                DataInputStream input   = new DataInputStream(socket.getInputStream());
 
                 // lee lo que escriba el usuario
                 BufferedReader brRequest = new BufferedReader(new InputStreamReader(System.in));
@@ -43,9 +45,13 @@ public class MainCliente
 
                 // manda peticion al servidor
                 output.writeUTF(request);
+
                 // captura respuesta e imprime
                 String st = input.readUTF();
-                if( st != null ) System.out.println("Servidor> " + st );
+
+                if (st != null) {
+                    System.out.println("Servidor> " + st );
+                }
 
                 output.close();
                 socket.close();
