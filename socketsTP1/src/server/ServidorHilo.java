@@ -17,17 +17,17 @@ public class ServidorHilo extends Thread {
     private String ipServidorHoroscopo, ipServidorPronostico;
     private int portSH, portSP;
 
-    public ServidorHilo(Socket socket, int id, ConcurrentHashMap<String,String> hashmap, String ipSH, String ipSP,int portSH, int portSP) {
-        this.socket = socket;
+    public ServidorHilo(Socket socket, int id, ConcurrentHashMap<String,String> hashmap, String ipSH, String ipSP, int portSH, int portSP) {
+        this.socket   = socket;
         this.idSessio = id;
         this.hm = hashmap;
         this.patronFecha = Pattern.compile("\\b(0?[1-9]|[12][0-9]|3[01])[- /.](0?[1-9]|1[012])[- /.](\\d{2,4})\\b");
         this.patronSigno = Pattern.compile("aries|tauro|geminis|cancer|leo|virgo|libra|escorpio|sagitario|capricornio|acuario|piscis",
                 Pattern.CASE_INSENSITIVE);
-        this.ipServidorHoroscopo = ipSH;
+        this.ipServidorHoroscopo  = ipSH;
         this.ipServidorPronostico = ipSP;
-        this.portSH=portSH;
-        this.portSP=portSP;
+        this.portSH = portSH;
+        this.portSP = portSP;
 
         try {
             dos = new DataOutputStream(socket.getOutputStream());
@@ -40,14 +40,14 @@ public class ServidorHilo extends Thread {
     @Override
     public void run() {
         String request = "";
-        String fecha = "";
+        String fecha   = "";
+        String signo   = "";
         String fechaNormalizada = "";
         String signoNormalizada = "";
-        String signo = "";
-        String[] response = new String[2];
-        FutureTask<String> solicitarHoroscopo = new FutureTask<String>(new Peticion ("", "", 0));
+        String[] response       = new String[2];
+        FutureTask<String> solicitarHoroscopo  = new FutureTask<String>(new Peticion ("", "", 0));
         FutureTask<String> solicitarPronostico = new FutureTask<String>(new Peticion ("", "", 0));
-        ExecutorService executor = Executors.newFixedThreadPool(2);
+        ExecutorService executor               = Executors.newFixedThreadPool(2);
 
         try {
             // Esto es lo que el cliente solicita
