@@ -57,9 +57,7 @@ public class ServidorImplementacion extends UnicastRemoteObject implements Servi
             Matcher escanearFecha = patronFecha.matcher(request);
 
             if (escanearSigno.find()) {
-                signo = escanearSigno.group();
-                
-
+                signo = escanearSigno.group();             
                 // Si la consulta esta en cache, caso contrario realizo consulta
                 signoNormalizada = signo.toLowerCase();
                 if (cache.containsKey(signoNormalizada)) { 
@@ -75,7 +73,6 @@ public class ServidorImplementacion extends UnicastRemoteObject implements Servi
             
             if (escanearFecha.find()) {
                 fecha = escanearFecha.group();
-                
                 // Si la consulta esta en cache , caso contrario realizo consulta
                 fechaNormalizada = fecha.replaceAll("[^0-9]","");
                 if (cache.containsKey(fechaNormalizada)) {
@@ -85,8 +82,11 @@ public class ServidorImplementacion extends UnicastRemoteObject implements Servi
                     response[1] = pronostico.consultarPronostico(fecha); // Invocacion remota a pronostico
                 }
             }
-
-            respuesta = response[0] + "\n" + response[1];
+              else {
+                response[1] = new String("No se detecto ningun signo o fue escrito incorrectamente.");
+            }
+    
+            respuesta = " SIGNO: "+response[0] + "\n"+" HORÓSCOPO:" + response[1];
             System.out.println("Central> Resultado de peticion");
             System.out.println("Central> \"" + respuesta + "\"");
             

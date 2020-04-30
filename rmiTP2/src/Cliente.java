@@ -27,7 +27,7 @@ public class Cliente {
                 
                 System.out.println("Enviando...");
                 // Invocacion remota
-                System.out.println("Respuestas: " + serv.consultar(entrada));
+                System.out.println("Respuestas: \n" + serv.consultar(entrada));
             }
         } catch (Exception e) { 
             e.printStackTrace();
