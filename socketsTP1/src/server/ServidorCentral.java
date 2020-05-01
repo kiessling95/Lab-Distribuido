@@ -17,7 +17,7 @@ public class ServidorCentral {
             shIP      = args[1];
             shPort    = Integer.parseInt(args[2]);
             spIP      = args[3];
-            shPort    = Integer.parseInt(args[4]);
+            spPort    = Integer.parseInt(args[4]);
         } else {
             System.out.println("Uso: ServidorCentral [puertoLocal servidorHoroscopo puertoHoroscopo servidorPronostico puertoHoroscopo]");
 

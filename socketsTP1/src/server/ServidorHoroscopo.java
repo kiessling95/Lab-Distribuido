@@ -24,7 +24,7 @@ public class ServidorHoroscopo {
             String ip = InetAddress.getLocalHost().getHostAddress();
 
             //Socket de servidor para esperar peticiones de la red
-            ServerSocket serverSocket = new ServerSocket(PORT);
+            ServerSocket serverSocket = new ServerSocket(port);
 
             System.out.println("Inicializando servidor horoscopo en el puerto: " + port + " con IP: " + ip + "\t[OK]");
 
