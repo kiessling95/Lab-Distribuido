@@ -26,14 +26,18 @@ public class ServidorPronostico extends UnicastRemoteObject implements Servicios
             return;
         }
 
+        String ipLocal  = args[0];
+        int puertoLocal = Integer.parseInt(args[1]);
+        String url      = "rmi://" + ipLocal + ":" + puertoLocal + "/ServidorPronostico";
+
         try {
             // Se instancian los servicios
             ServiciosPronostico serv = new ServidorPronostico(); 
-            
-            LocateRegistry.createRegistry(Integer.parseInt(args[1]));
-            
+
+            LocateRegistry.createRegistry(puertoLocal);
+
             // Se asocia una URL a la IP y puerto de los parametros
-            Naming.rebind("rmi://" + args[0] + ":" + args[1] + "/ServidorPronostico",serv); 
+            Naming.rebind(url, serv); 
 
         } catch (RemoteException e) {
             System.err.println("Error de comunicacion: " + e.toString());
@@ -51,18 +55,16 @@ public class ServidorPronostico extends UnicastRemoteObject implements Servicios
      */
     @Override
     public String consultarPronostico(String request) throws RemoteException {
-      
-        String respuesta = "Consulta recibida";
+		String respuesta = "Consulta recibida"; 
 
-        System.out.println("Cliente> peticion [" + request + "]");
+		System.out.println("Pronostico> Nueva peticion entrante: [" + request + "]");
 
-        respuesta = process(request); // Se procesa la consulta para obtener la prediccion
+		//Se procesa la peticion y se espera resultado
+		respuesta = process(request); 
 
+		System.out.println("Pronostico> Resultado de peticion: [" + request + "] es: " + respuesta);
 
-        System.out.println("Pronostico> Resultado de peticion");
-        System.out.println("Pronostico> \"" + respuesta + "\"");
-
-        return respuesta; // Se devuelve la prediccion
+		return respuesta;
     }
 
     /**
@@ -71,12 +73,12 @@ public class ServidorPronostico extends UnicastRemoteObject implements Servicios
      * @return el pronostico para el dia solicitado
      */
     public static String process(String request) {
-        String result = "El pronostico del dia: ";
+        String result = "";
         int value = 0;
 
         Pattern patronFecha = Pattern.compile("(0?[1-9]|[12][0-9]|3[01])[- /.](0?[1-9]|1[012])[- /.](\\d{2,4})");
         Matcher matcher = patronFecha.matcher(request);
-       
+
         try {
             File file = new File("Pronosticos.xml");
             //an instance of factory that gives a document builder
@@ -100,7 +102,7 @@ public class ServidorPronostico extends UnicastRemoteObject implements Servicios
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 Element elemento = (Element) node;
 
-                result += "Temperatura: " + elemento.getElementsByTagName("temperatura").item(0).getTextContent() +
+                result = "Temperatura: " + elemento.getElementsByTagName("temperatura").item(0).getTextContent() +
                         " - Viento: " + elemento.getElementsByTagName("viento").item(0).getTextContent() +
                         " - Presion: " + elemento.getElementsByTagName("presion").item(0).getTextContent() +
                         " - Humedad: "+ elemento.getElementsByTagName("humedad").item(0).getTextContent() +

@@ -15,17 +15,25 @@ public class Servidor {
             System.err.println("Uso: Servidor IPLocal PuertoLocal IPHoroscopo PuertoHoroscopo IPPronostico PuertoPronostico");
             return;
         }
-        
+
+        String ipLocal       = args[0];
+        int puertoLocal      = Integer.parseInt(args[1]);
+        String ipHoroscopo   = args[2];
         int puertoHoroscopo  = Integer.parseInt(args[3]);
+        String ipPronostico  = args[4];
         int puertoPronostico = Integer.parseInt(args[5]);
+        String url           = "rmi://" + ipLocal + ":" + puertoLocal + "/ServidorImplementacion";
 
         try {
-            Servicios serv = new ServidorImplementacion(args[2], puertoHoroscopo, args[4], puertoPronostico); // Se instancian los servicios
-            
-            LocateRegistry.createRegistry(Integer.parseInt(args[1]));
-            
-            // Se asocia una URL a la IP y puerto de los parametros
-            Naming.rebind("rmi://" + args[0] + ":" + args[1] + "/ServidorImplementacion",serv);
+            // Se instancian los servicios (stub)
+            Servicios serv = new ServidorImplementacion(ipHoroscopo, puertoHoroscopo, ipPronostico, puertoPronostico);
+
+            // Crea un registro en el host local que escuchara en el puerto pasado por parametro
+            // Remplaza a rmiregistry
+            LocateRegistry.createRegistry(puertoLocal);
+
+            // Asociamos el objeto remoto (stub) al nombre del servicio y lo registramos
+            Naming.bind(url, serv);
         } catch (RemoteException e) {
             System.err.println("Error de comunicacion: " + e.toString());
             System.exit(1);

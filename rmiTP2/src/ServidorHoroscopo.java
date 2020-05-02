@@ -18,19 +18,24 @@ public class ServidorHoroscopo extends UnicastRemoteObject implements ServiciosH
      * @param args[1] un numero de puerto (debe tener asociado un servicio RMI Registry)
      */
     public static void main(String[] args) {
-        if (args.length < 2) { // Si no se ingresan la cantidad de parametros correctos
+        // Si no se ingresan la cantidad de parametros correctos
+        if (args.length < 2) {
             System.err.println("Uso: ServidorHoroscopo IPLocal PuertoLocal");
             return;
         }
 
+        String ipLocal  = args[0];
+        int puertoLocal = Integer.parseInt(args[1]);
+        String url      = "rmi://" + ipLocal + ":" + puertoLocal + "/ServidorHoroscopo";
+
         try {
 			// Se instancian los servicios
 			ServiciosHoroscopo serv = new ServidorHoroscopo(); 
-            
-            LocateRegistry.createRegistry(Integer.parseInt(args[1]));
-            
+
+            LocateRegistry.createRegistry(puertoLocal);
+
 			// Se asocia una URL a la IP y puerto de los parametros
-            Naming.rebind("rmi://" + args[0] + ":" + args[1] + "/ServidorHoroscopo",serv); 
+            Naming.rebind(url, serv); 
 
        } catch (RemoteException e) {
             System.err.println("Error de comunicacion: " + e.toString());
@@ -50,16 +55,14 @@ public class ServidorHoroscopo extends UnicastRemoteObject implements ServiciosH
     public String consultarHoroscopo(String request) throws RemoteException {
 		String respuesta = "Consulta recibida"; 
 
-		System.out.println("Cliente> peticion [" + request + "]");
+		System.out.println("Horoscopo> Nueva peticion entrante: [" + request + "]");
 
-		//se procesa la peticion y se espera resultado
+		//Se procesa la peticion y se espera resultado
 		respuesta = process(request); 
 
+		System.out.println("Horoscopo> Resultado de peticion: [" + request + "] es: " + respuesta);
 
-		System.out.println("Horoscopo> Resultado de peticion");
-		System.out.println("Horoscopo> \"" + request + "\"");
-
-		return respuesta; // Devuelve la predicción
+		return respuesta;
     }
 
     /**
@@ -67,8 +70,7 @@ public class ServidorHoroscopo extends UnicastRemoteObject implements ServiciosH
      * @param request peticion del cliente
      * @return una prediccion para la entrada enviada
      */ 
-    public String process(String request) { 
-	        
+    public String process(String request) {
 		String result = "";
         ArrayList<String> phrasesList = new ArrayList<>();
 

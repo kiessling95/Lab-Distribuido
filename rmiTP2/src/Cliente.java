@@ -15,14 +15,18 @@ public class Cliente {
             return;
         }
 
+        String ipServidor     = args[0];
+        String puertoServidor = args[1];
+        String url            = "rmi://" + ipServidor + ":" + puertoServidor + "/ServidorImplementacion";
+
         try {
             System.out.print("Buscando servicios...");
             // Se buscan los servicios provistos por el servidor
-            Servicios serv = (Servicios) Naming.lookup("rmi://"+args[0]+":"+args[1]+"/ServidorImplementacion");
+            Servicios serv = (Servicios) Naming.lookup(url);
             System.out.println("\t\t[OK]");
 
             while (true) {
-                System.out.println("Ingrese peticion o escriba exit para salir: ");
+                System.out.println("\nIngrese peticion o escriba exit para salir: ");
                 String entrada = new Scanner(System.in).nextLine();
                 if (entrada.equals("exit")) break;
                 

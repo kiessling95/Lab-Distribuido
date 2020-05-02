@@ -1,10 +1,8 @@
 import java.rmi.*;
 import java.rmi.server.*;
 import java.rmi.registry.*;
-
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.*;
-
 
 public class ServidorImplementacion extends UnicastRemoteObject implements Servicios {
 
@@ -49,7 +47,7 @@ public class ServidorImplementacion extends UnicastRemoteObject implements Servi
         String fechaNormalizada = "";
         String signoNormalizada = "";
 
-        System.out.println("Cliente> peticion [" + request + "]");
+        System.out.println("Servidor Central> Nueva peticion entrante: [" + request + "]");
 
         try {
             
@@ -62,46 +60,44 @@ public class ServidorImplementacion extends UnicastRemoteObject implements Servi
                 signoNormalizada = signo.toLowerCase();
                 if (cache.containsKey(signoNormalizada)) { 
                     response[0] = (String) cache.get(signoNormalizada);
-                    System.out.println("Se accedio a cache para recuperar la petición de Horoscopo del cliente");
+                    System.out.println("Servidor Central> Se accedio a cache para recuperar la petición de Horoscopo de [" + signoNormalizada + "]");
                 } else {
                     response[0] = horoscopo.consultarHoroscopo(signo); // Invocacion remota a horoscopo
                 }
 
             } else {
-                response[0] = new String("No se detecto ningun signo o fue escrito incorrectamente.");
+                response[0] = new String("Servidor Central> No se detecto ningun signo o fue escrito incorrectamente.");
             }
-            
+
             if (escanearFecha.find()) {
                 fecha = escanearFecha.group();
                 // Si la consulta esta en cache , caso contrario realizo consulta
                 fechaNormalizada = fecha.replaceAll("[^0-9]","");
                 if (cache.containsKey(fechaNormalizada)) {
                     response[1] = new String(cache.get(fechaNormalizada));
-                    System.out.println("Se accedio a cache para recuperar la peticion de Pronostico del cliente");
+                    System.out.println("Servidor Central> Se accedio a cache para recuperar la peticion de Pronostico de [" + fecha + "]");
                 } else {
                     response[1] = pronostico.consultarPronostico(fecha); // Invocacion remota a pronostico
                 }
+            } else {
+                response[1] = new String("Servidor Central> No se detecto ninguna fecha o fue escrita incorrectamente.");
             }
-              else {
-                response[1] = new String("No se detecto ningun signo o fue escrito incorrectamente.");
-            }
-    
-            respuesta = " SIGNO: "+response[0] + "\n"+" HORÓSCOPO:" + response[1];
-            System.out.println("Central> Resultado de peticion");
-            System.out.println("Central> \"" + respuesta + "\"");
+
+            respuesta = "HOROSCOPO: " + response[0] + "\n" + "PRONOSTICO: " + response[1];
+            System.out.println("Servidor Central> Retornando respuesta para solicitud: [" + signo + "] fecha: [" + fecha + "]");
             
             // Administra cache, si la cache esta "llena" elimina un elemento
             if (cache.size() > 10) { 
                 String basura = (String) cache.keys().nextElement();
                 cache.remove(basura);
-                System.out.println("Cache llena, elimino consulta : "+ basura);
+                System.out.println("Servidor Central> Cache llena, elimino consulta : " + basura);
             }
 
-            if (response[0] == null) {
+            if (response[0] != null) {
                 cache.put(signoNormalizada, response[0]); 
             }
 
-            if (response[1] == null) {
+            if (response[1] != null) {
                 cache.put(fechaNormalizada, response[1]); 
             }
 
@@ -113,5 +109,4 @@ public class ServidorImplementacion extends UnicastRemoteObject implements Servi
         return respuesta;
     }
 }
-
 
