@@ -1,5 +1,8 @@
+package cliente;
+
 import java.rmi.*;
 import java.util.Scanner;
+import server.*;
 
 public class Cliente {
     

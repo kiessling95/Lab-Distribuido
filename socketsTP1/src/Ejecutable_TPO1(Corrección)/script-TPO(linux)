@@ -1,0 +1,11 @@
+#!/bin/bash
+
+echo Ejecutando Servidores y Cliente:
+
+gnome-terminal -- java -cp ./TPO1.jar server.ServidorCentral 8888 'localhost' 8000 'localhost' 7000
+
+gnome-terminal -- java -cp ./TPO1.jar server.ServidorHoroscopo 8000
+ 
+gnome-terminal -- java -cp ./TPO1.jar server.ServidorPronostico 7000
+
+gnome-terminal -- java -cp ./TPO1.jar cliente.MainCliente 'localhost' 8888
