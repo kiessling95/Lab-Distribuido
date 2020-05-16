@@ -1,0 +1,6 @@
+Armar un proyecto cliente y otro server en ECLIPSE.  
+Setear versión de compilador e incorporar biblioteca requerida.
+:~/workspace/ws2s/bin$ ls tano
+wsgen -keep -cp . tano.CalcImpl
+:~/workspace/ws2s/bin$ java tano.CalcPublisher
+:~/workspace/ws2c/bin$ java tano.CalcClient

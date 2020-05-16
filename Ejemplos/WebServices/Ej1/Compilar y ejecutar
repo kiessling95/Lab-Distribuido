@@ -1,0 +1,6 @@
+Armar un proyecto cliente y otro server en ECLIPSE.  
+Setear versión de compilador e incorporar biblioteca requerida.
+:~/workspace/ws2client/bin$ls com/javatpoint/
+wsgen -keep -cp . com.javatpoint.CalcImpl
+:~/workspace/ws2server/bin$ java   com.javatpoint.CalcPublisher
+:~/workspace/ws2client/bin$ java com.javatpoint.CalcClient

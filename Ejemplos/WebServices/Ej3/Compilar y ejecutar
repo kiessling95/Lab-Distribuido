@@ -1,0 +1,9 @@
+Armar un proyecto cliente, otro con serverSC y otro serverSS en ECLIPSE.  
+Setear versión de compilador e incorporar biblioteca requerida.
+:~/workspace/ws3SC/bin$ ls tano
+wsgen -keep -cp . tano.CalcImpl
+:~/workspace/ws3SS/bin$ ls tano
+wsgen -keep -cp . tano.SumacImpl
+:~/workspace/ws3SC/bin$ java tano.CalcPublisher
+:~/workspace/ws3SS/bin$ java tano.SumaPublisher
+:~/workspace/ws3c/bin$ java tano.CalcClient
