@@ -6,6 +6,8 @@ import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 import java.util.Scanner;
 
+import server.Servidor;
+
 public class Cliente {
 
     public static void main(String[] args) throws MalformedURLException {
@@ -21,14 +23,14 @@ public class Cliente {
         
         QName qname = new QName("http://server/", "ServiciosImplService");
 
-        QName portname = new QName("http://wsServer/","ServidorImplPort");
+        QName portname = new QName("http://server/","ServidorImplPort");
 
         Service service = Service.create(url, qname);
-        Servicios serv  = service.getPort(portname,Servicios.class);
+        Servidor serv  = service.getPort(portname,Servidor.class);
 
 
         while (true) {
-            System.out.println("\nIngrese peticion o escriba exit para salir: ");
+            System.out.println("\n Ingrese peticion o escriba exit para salir: ");
             String entrada = new Scanner(System.in).nextLine();
             if (entrada.equals("exit")) break;
 
