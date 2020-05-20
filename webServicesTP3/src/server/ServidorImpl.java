@@ -3,10 +3,11 @@ package server;
 import javax.jws.WebService;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
+import java.net.URL;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.*;
 
-@WebService(endpointInterface = "server.Servicios")
+@WebService(endpointInterface = "server.Servidor")
 public class ServidorImpl implements Servidor {
 
     // Servicios del servidor horoscopo
@@ -29,8 +30,8 @@ public class ServidorImpl implements Servidor {
             URL urlHoroscopoco= new URL("http://"+ipH+":"+pH+"/ws/Horoscopo?wsdl");
             
             // Qnames
-            QName qnamePronostico = new QName("http://src.wsServer/", "PronosticoImplService");
-            QName qnameHoroscopo = new QName("http://src.wsServer/", "HoroscopoImplService");
+            QName qnamePronostico = new QName("http://server/", "PronosticoImplService");
+            QName qnameHoroscopo = new QName("http://server/", "HoroscopoImplService");
             
             
             // Services

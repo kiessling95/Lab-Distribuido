@@ -21,7 +21,7 @@ public class Cliente {
         String puertoServidor = args[1];
         URL url = new URL("http://"+ipServidor+":"+puertoServidor+"/ws/Servidor?wsdl");
         
-        QName qname = new QName("http://server/", "ServiciosImplService");
+        QName qname = new QName("http://server/", "ServidorImplService");
 
         QName portname = new QName("http://server/","ServidorImplPort");
 
