@@ -7,29 +7,40 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.*;
 
 @WebService(endpointInterface = "server.Servicios")
-public class ServidorImplementacion implements Servicios {
+public class ServidorImpl implements Servidor {
 
     // Servicios del servidor horoscopo
-    private static ServiciosHoroscopo horoscopo;
+    private static Horoscopo horoscopo;
     // Servicios del servidor pronostico
-    private static ServiciosPronostico pronostico; 
+    private static Pronostico pronostico; 
     // Estructura de Datos utilizada como CACHE
     private static ConcurrentHashMap<String, String> cache; 
     // Patrones fecha y signo
     private Pattern patronSigno, patronFecha;
 
-    public ServidorImplementacion(String ipH, int pH, String ipP, int pP) {
+    public ServidorImpl(String ipH, int pH, String ipP, int pP) {
         super();
  
         try{
             cache = new ConcurrentHashMap<>();
-            Service servPronostico = Service.create("http://"+ipP+":"+pP+"/ws/Pronostico?wsdl", new QName("http://server","PronosticoImplService"));
-            Service servHoroscopo  = Service.create("http://"+ipH+":"+pH+"/ws/Horoscopo?wsdl", new QName("http://server","HoroscopoImplService"));
+
+            // URLs
+            URL urlPronostico= new URL("http://"+ipP+":"+pP+"/ws/Pronostico?wsdl");
+            URL urlHoroscopoco= new URL("http://"+ipH+":"+pH+"/ws/Horoscopo?wsdl");
             
+            // Qnames
+            QName qnamePronostico = new QName("http://src.wsServer/", "PronosticoImplService");
+            QName qnameHoroscopo = new QName("http://src.wsServer/", "HoroscopoImplService");
+            
+            
+            // Services
+            Service servPronostico = Service.create(urlPronostico, qnamePronostico);
+            Service servHoroscopo  = Service.create(urlHoroscopoco, qnameHoroscopo);
+
             // Conexion al servidor pronostico
-            pronostico =  servPronostico.getPort(ServiciosPronostico.class);
+            pronostico =  servPronostico.getPort(Pronostico.class);
             // Conexion al servidor horoscopo
-            horoscopo  =  servHoroscopo.getPort(ServiciosHoroscopo.class);
+            horoscopo  =  servHoroscopo.getPort(Horoscopo.class);
             // Patrones 
             this.patronFecha = Pattern.compile("\\b(0?[1-9]|[12][0-9]|3[01])[- /.](0?[1-9]|1[012])[- /.](\\d{2,4})\\b");
             this.patronSigno = Pattern.compile("aries|tauro|geminis|cancer|leo|virgo|libra|escorpio|sagitario|capricornio|acuario|piscis",

@@ -6,9 +6,13 @@ import java.io.*;
 import java.nio.file.*;
 import java.util.*;
 
-@WebService(endpointInterface = "server.ServiciosHoroscopo")
-public class ServidorHoroscopo implements ServiciosHoroscopo {
+@WebService(endpointInterface = "server.Horoscopo")
+public class HoroscopoImpl implements Horoscopo {
 
+    protected HoroscopoImpl() {
+		super();
+    }
+    
     @Override
     public String consultarHoroscopo(String request) {
 		String respuesta = "Consulta recibida"; 

@@ -11,6 +11,6 @@ public class HoroscopoPublisher {
             return;
         }
         
-        Endpoint.publish("http://"+args[0]+":"+args[1]+"/ws/Horoscopo", new ServidorHoroscopo());
+        Endpoint.publish("http://"+args[0]+":"+args[1]+"/ws/Horoscopo", new HoroscopoImpl());
     }
 }

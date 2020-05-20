@@ -7,8 +7,12 @@ import java.util.regex.*;
 import javax.xml.parsers.*;
 import org.w3c.dom.*;
 
-@WebService(endpointInterface = "server.ServiciosPronostico")
-public class ServidorPronostico implements ServiciosPronostico {
+@WebService(endpointInterface = "server.Pronostico")
+public class PronosticoImpl implements Pronostico {
+
+    protected PronosticoImpl() {
+		super();
+	}
 
     @Override
     public String consultarPronostico(String request) {

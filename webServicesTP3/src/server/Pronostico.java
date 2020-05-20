@@ -5,11 +5,12 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.jws.soap.SOAPBinding.Style;
 
-//Service Endpoint Interface
+/*
+Interfaz implementada por ServidorPronostico
+*/
 @WebService
 @SOAPBinding(style = Style.DOCUMENT)
-public interface Servicios {
-    
-    @WebMethod
-    public String consultar(String consulta);
+public interface Pronostico {
+
+    @WebMethod String consultarPronostico(String consulta); 
 }

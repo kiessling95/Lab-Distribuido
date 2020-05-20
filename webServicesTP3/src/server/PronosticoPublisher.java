@@ -11,6 +11,6 @@ public class PronosticoPublisher {
             return;
         }
         
-        Endpoint.publish("http://"+args[0]+":"+args[1]+"/ws/Pronostico", new ServidorPronostico());
+        Endpoint.publish("http://"+args[0]+":"+args[1]+"/ws/Pronostico", new PronosticoImpl());
     }
 }
