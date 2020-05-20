@@ -21,8 +21,10 @@ public class Cliente {
         
         QName qname = new QName("http://server/", "ServiciosImplService");
 
+        QName portname = new QName("http://wsServer/","ServidorImplPort");
+
         Service service = Service.create(url, qname);
-        Servicios serv  = service.getPort(Servicios.class);
+        Servicios serv  = service.getPort(portname,Servicios.class);
 
 
         while (true) {
