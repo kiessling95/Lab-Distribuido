@@ -12,10 +12,12 @@ public class Cliente {
     public static void main(String[] args) {
 
         JFrame f = new JFrame("Cliente");
+        String[] signos = {"Aries", "Tauro", "Geminis", "Cancer", "Leo", "Virgo", "Libra", "Escorpio",
+                "Sagitario", "Capricornio", "Acuario", "Piscis"};
 
         JTextField ipServidor = new JTextField("localhost");
         JSpinner puertoServidor = new JSpinner(new SpinnerNumberModel(9000, 6000, 9000, 1));
-        JTextField signo = new JTextField("signo");
+        JComboBox<String> signo = new JComboBox<>(signos);
         JTextField fecha = new JTextField("fecha");
         JLabel res = new JLabel("Respuesta");
         JButton b = new JButton("Consultar");
@@ -33,6 +35,7 @@ public class Cliente {
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         b.addActionListener(e -> {
+            res.setText("Procesando...");
             URL url = null;
             try {
                 url = new URL("http://"+ipServidor.getText()+":"+puertoServidor.getValue()+"/ws/Servidor?wsdl");
@@ -45,7 +48,7 @@ public class Cliente {
             Service service = Service.create(url, qname);
             ServiciosServidor serv  = service.getPort(ServiciosServidor.class);
 
-            String respuesta = serv.consultar(signo.getText() + fecha.getText());
+            String respuesta = serv.consultar(signo.getSelectedItem() + fecha.getText());
 
             SwingUtilities.invokeLater(() -> res.setText(respuesta));
         });
