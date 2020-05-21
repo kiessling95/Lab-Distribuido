@@ -1,4 +1,4 @@
-package server;
+package webservice;
 
 import javax.jws.WebService;
 
@@ -7,8 +7,8 @@ import java.util.regex.*;
 import javax.xml.parsers.*;
 import org.w3c.dom.*;
 
-@WebService(endpointInterface = "server.Pronostico")
-public class PronosticoImpl implements Pronostico {
+@WebService(endpointInterface = "webservice.ServiciosPronostico")
+public class PronosticoImpl implements ServiciosPronostico {
 
     protected PronosticoImpl() {
 		super();

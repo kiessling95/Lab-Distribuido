@@ -1,12 +1,10 @@
-package cliente;
+package webservice;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 import java.util.Scanner;
-
-import server.Servidor;
 
 public class Cliente {
 
@@ -21,12 +19,10 @@ public class Cliente {
         String puertoServidor = args[1];
         URL url = new URL("http://"+ipServidor+":"+puertoServidor+"/ws/Servidor?wsdl");
         
-        QName qname = new QName("http://server/", "ServidorImplService");
-
-        QName portname = new QName("http://server/","ServidorImplPort");
+        QName qname = new QName("http://webservice/", "ServiciosServidorImplService");
 
         Service service = Service.create(url, qname);
-        Servidor serv  = service.getPort(portname,Servidor.class);
+        ServiciosServidor serv  = service.getPort(ServiciosServidor.class);
 
 
         while (true) {

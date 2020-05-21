@@ -1,4 +1,4 @@
-package server;
+package webservice;
 
 import javax.jws.WebService;
 
@@ -6,8 +6,8 @@ import java.io.*;
 import java.nio.file.*;
 import java.util.*;
 
-@WebService(endpointInterface = "server.Horoscopo")
-public class HoroscopoImpl implements Horoscopo {
+@WebService(endpointInterface = "webservice.ServiciosHoroscopo")
+public class HoroscopoImpl implements ServiciosHoroscopo {
 
     protected HoroscopoImpl() {
 		super();

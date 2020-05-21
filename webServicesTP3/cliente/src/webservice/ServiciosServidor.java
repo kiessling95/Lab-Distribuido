@@ -1,16 +1,15 @@
-package server;
+package webservice;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.jws.soap.SOAPBinding.Style;
 
-/*
-Interfaz implementada por ServidorHoroscopo
-*/
+//Service Endpoint Interface
 @WebService
 @SOAPBinding(style = Style.DOCUMENT)
-public interface Horoscopo {
-
-    @WebMethod String consultarHoroscopo(String consulta); 
+public interface ServiciosServidor {
+    
+    @WebMethod
+    public String consultar(String consulta);
 }

@@ -1,4 +1,4 @@
-package server;
+package webservice;
 
 import javax.xml.ws.Endpoint;
 
@@ -19,6 +19,6 @@ public class ServidorPublisher {
         int puertoPronostico = Integer.parseInt(args[5]);
 
         
-        Endpoint.publish("http://"+ipLocal+":"+puertoLocal+"/ws/Servidor", new ServidorImpl(ipHoroscopo, puertoHoroscopo, ipPronostico, puertoPronostico));
+        Endpoint.publish("http://"+ipLocal+":"+puertoLocal+"/ws/Servidor", new ServiciosServidorImpl(ipHoroscopo, puertoHoroscopo, ipPronostico, puertoPronostico));
     }
 }
