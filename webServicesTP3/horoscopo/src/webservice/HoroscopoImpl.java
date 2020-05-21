@@ -9,10 +9,6 @@ import java.util.*;
 @WebService(endpointInterface = "webservice.ServiciosHoroscopo")
 public class HoroscopoImpl implements ServiciosHoroscopo {
 
-    protected HoroscopoImpl() {
-		super();
-    }
-    
     @Override
     public String consultarHoroscopo(String request) {
 		String respuesta = "Consulta recibida"; 

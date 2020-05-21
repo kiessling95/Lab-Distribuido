@@ -4,35 +4,50 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
-import java.util.Scanner;
+import javax.swing.*;
+import java.awt.*;
 
 public class Cliente {
 
-    public static void main(String[] args) throws MalformedURLException {
-        
-        if (args.length < 2) {
-            System.err.println("Uso: Cliente IPServidor PuertoServidor");
-            return;
-        }
+    public static void main(String[] args) {
 
-        String ipServidor     = args[0];
-        String puertoServidor = args[1];
-        URL url = new URL("http://"+ipServidor+":"+puertoServidor+"/ws/Servidor?wsdl");
-        
-        QName qname = new QName("http://webservice/", "ServiciosServidorImplService");
+        JFrame f = new JFrame("Cliente");
 
-        Service service = Service.create(url, qname);
-        ServiciosServidor serv  = service.getPort(ServiciosServidor.class);
+        JTextField ipServidor = new JTextField("localhost");
+        JSpinner puertoServidor = new JSpinner(new SpinnerNumberModel(9000, 6000, 9000, 1));
+        JTextField signo = new JTextField("signo");
+        JTextField fecha = new JTextField("fecha");
+        JLabel res = new JLabel("Respuesta");
+        JButton b = new JButton("Consultar");
 
+        f.add(ipServidor);
+        f.add(puertoServidor);
+        f.add(signo);
+        f.add(fecha);
+        f.add(res);
+        f.add(b);
 
-        while (true) {
-            System.out.println("\n Ingrese peticion o escriba exit para salir: ");
-            String entrada = new Scanner(System.in).nextLine();
-            if (entrada.equals("exit")) break;
+        f.setLayout(new GridLayout(6,1));
+        f.setSize(300,500);
+        f.setVisible(true);
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-            System.out.println("Enviando...");
-            // Invocacion remota
-            System.out.println("Respuestas: \n" + serv.consultar(entrada));
-        }
+        b.addActionListener(e -> {
+            URL url = null;
+            try {
+                url = new URL("http://"+ipServidor.getText()+":"+puertoServidor.getValue()+"/ws/Servidor?wsdl");
+            } catch (MalformedURLException malformedURLException) {
+                malformedURLException.printStackTrace();
+            }
+
+            QName qname = new QName("http://webservice/", "ServiciosServidorImplService");
+
+            Service service = Service.create(url, qname);
+            ServiciosServidor serv  = service.getPort(ServiciosServidor.class);
+
+            String respuesta = serv.consultar(signo.getText() + fecha.getText());
+
+            SwingUtilities.invokeLater(() -> res.setText(respuesta));
+        });
     }
 }
