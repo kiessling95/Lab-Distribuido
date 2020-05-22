@@ -57,7 +57,7 @@ public class ServiciosServidorImpl implements ServiciosServidor {
      * @return una prediccion del horoscopo y del tiempo en la fecha dada
      */
     @Override
-    public String consultar(String request) {
+    public String[] consultar(String request) {
         String respuesta = "Consulta recibida";
         String[] response = new String[2];
         String signo = "";
@@ -124,7 +124,7 @@ public class ServiciosServidorImpl implements ServiciosServidor {
             e.printStackTrace();
         }
 
-        return respuesta;
+        return response;
     }
 }
 

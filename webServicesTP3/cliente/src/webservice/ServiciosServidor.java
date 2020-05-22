@@ -11,5 +11,5 @@ import javax.jws.soap.SOAPBinding.Style;
 public interface ServiciosServidor {
     
     @WebMethod
-    public String consultar(String consulta);
+    public String[] consultar(String consulta);
 }
