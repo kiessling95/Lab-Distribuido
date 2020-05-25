@@ -68,7 +68,7 @@ public class Cliente {
             Service service = Service.create(url, qname);
             ServiciosServidor serv  = service.getPort(ServiciosServidor.class);
 
-            String[] respuesta = serv.consultar(signo.getSelectedItem() + fecha.getText());
+            String[] respuesta = serv.consultar(signo.getSelectedItem() +" "+ fecha.getText());
 
             resSigno.setWrapStyleWord(true);
             resSigno.setLineWrap(true);
