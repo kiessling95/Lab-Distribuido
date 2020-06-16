@@ -40,7 +40,6 @@ io.on("connection", function (socket) {
 
     var userName=clientes.get(socket.id);
     console.log(userName+' Cerro la sesion');
-    socket.broadcast.emit("disconnect");
     nickname.delete(clientes.get(socket.id))
     clientes.delete(socket.id);
   });

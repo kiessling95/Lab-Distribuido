@@ -81,10 +81,6 @@ window.addEventListener("load", function (event) {
    
     $("#contenedor_chat").stop().animate({ scrollTop: $("#contenedor_chat")[0].scrollHeight }, 1000);
 
-    //isTyping event
-    $("#messageToSend").keypress(function () {
-      socket.emit("typing", { user: "Someone", message: "is typing..." })
-    });
 
     return false;
   }
