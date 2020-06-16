@@ -1,0 +1,19 @@
+Para correr el ejemplo se necesita:
+
+1) Instalar Node.js (sudo apt-get install Node.js)
+
+2) En el directorio node_modules están los módulos requeridos. Sino funciona el server:
+   Instalar npm (sudo apt-get install npm)
+   con npm instalar express (npm install -s express)
+   con npm instalar socket.io (npm install -s socket.io)
+
+3) Ejecutar dentro de nuestro proyecto : npm start 
+
+4) Abrir un navegador e introducir la url de "ejemplo.html"(http://localhost:4000/index.html)
+
+5) Introducir nuestro nickname y precionar enter
+
+6) Ingresar nickname destinatario ( debe estar conectado con el nickname ingresado).
+
+
+

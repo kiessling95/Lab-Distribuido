@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Chat</title>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" type="text/css" href="style.css" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+  <!-- Socket.io-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+  <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script type="text/javascript" src="main.js"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+    integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+</head>
+
+<body>
+  <div id="app" class="shadow bg-light ">
+    <div class="chat_window"></div>
+    <div class="top_menu">
+      <div class="title">Chat</div>
+  </div>
+    <!-- Lista de mensajes enviados y recibidos -->
+    <div class="card pre-scrollable sticky-top" id="contenedor_chat" style="margin-top: 1%; height: 400px;">
+      <ul class="card-body" id="chat"></ul>
+    </div>
+
+    <!-- Entrada de texto para escribir mensaje y boton para enviar mensaje -->
+    <div class="container ">
+      <form id="form">
+        <div class="message_input_wrapper">
+          <input id="messageToSend" type="text" class="message_input " placeholder="Escriba su mensaje aqui" />
+        </div>
+        <button id="sendButton" type="button" class="btn btn-success col-2">
+          Enviar
+        </button>
+      </form>
+      <div class="row d-flex justify-content-center">
+        <h5 id="nickActual" class="col-2 mb-2 text-muted ">Nick:</h5>
+        <input id="nickname" type="text" class="col-10  " placeholder="Ingrese su Nick Name" />
+      </div>
+      <div class="row d-flex justify-content-center">
+        <h5 class="col-2 mb-2 text-muted ">Destinatario:</h5>
+        <input id="nicknameDestinatario" type="text" class="col-10  " placeholder="Ingrese Nick Name destinatario" />
+      </div>
+    </div>
+    
+  </div>
+</body>
+
+</html>
