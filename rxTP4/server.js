@@ -1,49 +1,44 @@
-var express = require("express"); // Import del modulo express.js
-var app = express();
-var server = app.listen(4000, function(){
-  console.log('server is running on port', server.address().port);
-});
-var io = require("socket.io")(server); // Import del modulo socket.io
+const express = require("express"); // Import del modulo express.js
+const app = express();
+const server = app.listen(4000, () => console.log(`Server is running on port ${server.address().port}`));
+const io = require("socket.io")(server); // Import del modulo socket.io
 
+const nickname = new Map(); // Nickname -> SocketID
+const clientes = new Map(); // SocketID -> Nickname 
 
-var nickname = new Map(); // Nickname -> SocketID
-var clientes = new Map(); // SocketID -> Nickname 
-
-
-
-app.use(express.static(__dirname +'/')); // Se establece el path de los archivos estaticos (css, imagenes, etc.)
+// Se establece el path de los archivos estaticos (css, imagenes, etc.)
+app.use(express.static(__dirname +'/'));
 
 // Cuando se accede a la pagina envia el html
-app.get("/", function (req, res) {
-  res.sendFile(__dirname + "/index.html");
-});
+app.get("/", (req, res) => res.sendFile(__dirname + "/index.html"));
 
 // Cuando hay una conexion...
-io.on("connection", function (socket) {
+io.on("connection", (socket) => {
 
-  socket.on("name", function (name) {
+  socket.on("name", (name) => {
     nickname.set(name, socket.id);
     clientes.set(socket.id, name);
-    console.log("Se conecto " + name);
+    console.log(`Se conecto ${name}`);
   });
 
+  socket.on("alguien", () => socket.broadcast.emit("alguienEscribe"));
+
   // Al recibir un mensaje, hacer...
-  socket.on("messageTo", function (msg) {
+  socket.on("messageTo", (msg) => {
     // Enviar mensaje a todos los nombres menos al emisor
     console.log(msg);
-    var destinatario = nickname.get(msg.to);
-    var emisor = clientes.get(socket.id);
+    const destinatario = nickname.get(msg.to);
+    const emisor = clientes.get(socket.id);
     io.to(destinatario).emit('message', { "message": msg.message, "from": emisor });
   });
 
-  socket.on("disconnect", function () {
-
-    var userName=clientes.get(socket.id);
-    console.log(userName+' Cerro la sesion');
-    nickname.delete(clientes.get(socket.id))
+  socket.on("disconnect", () => {
+    // Dar de baja al cerrar la sesion
+    const userName = clientes.get(socket.id);
+    console.log(`${userName} cerro la sesion`);
+    nickname.delete(clientes.get(socket.id));
     clientes.delete(socket.id);
   });
-
 });
 
 // Inicia el servidor http en el puerto designado

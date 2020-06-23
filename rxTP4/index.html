@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es-AR">
 
 <head>
   <title>Chat</title>
@@ -9,7 +9,7 @@
   <!-- Socket.io-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
   <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
-  <script type="text/javascript" src="main.js"></script>
+  <script type="text/javascript" src="main.js" defer></script>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
     integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
@@ -19,7 +19,7 @@
   <div id="app" class="shadow bg-light ">
     <div class="chat_window"></div>
     <div class="top_menu">
-      <div class="title">Chat</div>
+    <div class="title">Chat</div>
   </div>
     <!-- Lista de mensajes enviados y recibidos -->
     <div class="card pre-scrollable sticky-top" id="contenedor_chat" style="margin-top: 1%; height: 400px;">
@@ -43,6 +43,9 @@
       <div class="row d-flex justify-content-center">
         <h5 class="col-2 mb-2 text-muted ">Destinatario:</h5>
         <input id="nicknameDestinatario" type="text" class="col-10  " placeholder="Ingrese Nick Name destinatario" />
+      </div>
+
+      <div class="alert alert-dark" role="alert" id="escribiendo">
       </div>
     </div>
     
