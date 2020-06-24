@@ -1,4 +1,9 @@
-const socket = io(); // Socket.io
+// Para que el scroll del chat quede siempre abajo
+let chatBox = document.querySelector('#chat');
+chatBox.scrollTop = chatBox.scrollHeight - chatBox.clientHeight;
+
+// Socket.io
+const socket = io();
 
 // Al recibir un mensaje, crea un elemento en la lista chat mostrando dicho mensaje
 socket.on("message", function (msg) {
@@ -29,8 +34,8 @@ socket.on("message", function (msg) {
 $("#sendButton").on("click", () => sendMessage());
 
 // Cuando se apreta 'enter', se envia el mensaje
-$("#messageToSend").keypress((e) => {
-  if (e.which == 13) {
+$("#messageToSend").keypress((key) => {
+  if (key.which == 13) {
     sendMessage();
   } else {
     escribiendo();
@@ -38,16 +43,16 @@ $("#messageToSend").keypress((e) => {
 });
 
 function escribiendo() {
-  socket.emit("alguien");
+  socket.emit("avisarATodos");
   socket.on("alguienEscribe", () => {
     $("#escribiendo").text("Alguien está escribiendo...");
-    setTimeout(() => $("#escribiendo").text(""), 2000);
+    setTimeout(() => $("#escribiendo").text(""), 3000);
   });
 }
 
 // Cuando se apreta 'enter', se asigna el nuevo nick
-$("#nickname").keypress(function (e) {
-  if (e.which == 13) {
+$("#nickname").keypress((key) => {
+  if (key.which == 13) {
     const to = $("#nickActual").text();
     if (to == "Nick:") {
       const name = $("#nickname").val().trim();

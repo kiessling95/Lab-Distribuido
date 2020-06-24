@@ -21,7 +21,7 @@ io.on("connection", (socket) => {
     console.log(`Se conecto ${name}`);
   });
 
-  socket.on("alguien", () => socket.broadcast.emit("alguienEscribe"));
+  socket.on("avisarATodos", () => socket.broadcast.emit("alguienEscribe"));
 
   // Al recibir un mensaje, hacer...
   socket.on("messageTo", (msg) => {
@@ -29,7 +29,12 @@ io.on("connection", (socket) => {
     console.log(msg);
     const destinatario = nickname.get(msg.to);
     const emisor = clientes.get(socket.id);
-    io.to(destinatario).emit('message', { "message": msg.message, "from": emisor });
+
+    if (destinatario) {
+      socket.to(destinatario).emit('message', { "message": msg.message, "from": emisor });
+    } else {
+      socket.broadcast.emit('message', { "message": msg.message, "from": emisor });
+    }
   });
 
   socket.on("disconnect", () => {
