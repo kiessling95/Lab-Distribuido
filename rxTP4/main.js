@@ -30,6 +30,12 @@ socket.on("message", function (msg) {
   $("#chat").append(liMessageRecibed);
 });
 
+// Al conectarse un nuevo destinatario
+socket.on("nuevoDest", function (name){
+  console.log(name);
+  $("#nicknameDestinatario").append($('<option value="'+name+'">'+name+'</option>'));
+});
+
 // Cuando se presiona el boton de 'Send', se envia el mensaje
 $("#sendButton").on("click", () => sendMessage());
 
@@ -49,6 +55,7 @@ function escribiendo() {
     setTimeout(() => $("#escribiendo").text(""), 3000);
   });
 }
+
 
 // Cuando se apreta 'enter', se asigna el nuevo nick
 $("#nickname").keypress((key) => {
@@ -76,6 +83,7 @@ function sendMessage() {
   socket.emit("messageTo", { "message": message, "to": name });
   $("#messageToSend").val("").focus();
   $("#chat").append($('<li class="messageSended">').text(message)); 
+  
 
   // Agrega el mensaje a la lista del chat como un mensaje enviado por el cliente, y no recibido del servidor
   $("#contenedor_chat").stop().animate({ scrollTop: $("#contenedor_chat")[0].scrollHeight }, 1000);

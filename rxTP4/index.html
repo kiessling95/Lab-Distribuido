@@ -24,13 +24,16 @@
     <!-- Lista de mensajes enviados y recibidos -->
     <div class="card pre-scrollable sticky-top" id="contenedor_chat" style="margin-top: 1%; height: 400px;">
       <ul class="card-body" id="chat"></ul>
+      <i id="escribiendo"></i>
     </div>
 
     <!-- Entrada de texto para escribir mensaje y boton para enviar mensaje -->
     <div class="container">
 
       <div class="row">
+        
         <div class="input-group mb-3">
+          
           <input id="messageToSend" type="text" class="form-control" placeholder="Escriba su mensaje aqui">
           <div class="input-group-append">
             <button class="btn btn-outline-secondary" type="button" id="sendButton">Enviar</button>
@@ -41,7 +44,7 @@
       <div class="row">
         <div class="input-group mb-3">
           <div class="input-group-prepend">
-            <span class="input-group-text" id="nickActual">Nick</span>
+            <span class="input-group-text" id="nickActual">Nick:</span>
           </div>
           <input id="nickname" type="text" class="form-control" placeholder="Ingrese su nick name">
         </div>
@@ -50,15 +53,18 @@
       <div class="row">
         <div class="input-group mb-3">
           <div class="input-group-prepend">
-            <span class="input-group-text" id="nickActual">Destinatario</span>
+            <span class="input-group-text" id="nickActual">Destinatario:</span>
           </div>
+          <!--<select name="select" type="text" id=nicknameDestinatario>
+            <option value="Todos">Todos</option> 
+          </select>-->
           <input id="nicknameDestinatario" type="text" class="form-control" placeholder="Ingrese nick name destinatario">
         </div>
       </div>
 
-      <div class="row justify-content-md-center">
+      <!--<div class="row justify-content-md-center">
         <div class="alert alert-dark" role="alert" id="escribiendo"></div>
-      </div>
+      </div>-->
     </div>
   </div>
 </body>

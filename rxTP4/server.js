@@ -1,6 +1,8 @@
 const express = require("express"); // Import del modulo express.js
 const app = express();
-const server = app.listen(4000, () => console.log(`Server is running on port ${server.address().port}`));
+
+const port = process.argv[2];
+const server = app.listen(port, () => console.log(`Server is running on port ${server.address().port}`));
 const io = require("socket.io")(server); // Import del modulo socket.io
 
 const nickname = new Map(); // Nickname -> SocketID
@@ -18,6 +20,7 @@ io.on("connection", (socket) => {
   socket.on("name", (name) => {
     nickname.set(name, socket.id);
     clientes.set(socket.id, name);
+    socket.broadcast.emit("nuevoDest", name)
     console.log(`Se conecto ${name}`);
   });
 
@@ -30,6 +33,7 @@ io.on("connection", (socket) => {
     const destinatario = nickname.get(msg.to);
     const emisor = clientes.get(socket.id);
 
+    // cuando el destinatario no existe hace broadcast
     if (destinatario) {
       socket.to(destinatario).emit('message', { "message": msg.message, "from": emisor });
     } else {
