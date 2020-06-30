@@ -5,8 +5,8 @@ const port = process.argv[2];
 const server = app.listen(port, () => console.log(`Server is running on port ${server.address().port}`));
 const io = require("socket.io")(server); // Import del modulo socket.io
 
-const nickname = new Map(); // Nickname -> SocketID
-const clientes = new Map(); // SocketID -> Nickname 
+const nickname = new Map(); // ID : Nickname -> Valor : SocketID
+const clientes = new Map(); // ID : SocketID -> Valor : Nickname 
 
 // Se establece el path de los archivos estaticos (css, imagenes, etc.)
 app.use(express.static(__dirname +'/'));
@@ -18,25 +18,34 @@ app.get("/", (req, res) => res.sendFile(__dirname + "/index.html"));
 io.on("connection", (socket) => {
 
   socket.on("name", (name) => {
+    //Almaceno información ( socket.id, nickname)
     nickname.set(name, socket.id);
     clientes.set(socket.id, name);
-    socket.broadcast.emit("nuevoDest", name)
-    console.log(`Se conecto ${name}`);
+    console.log(`Se conecto muevo cliente nickname -> ${name}`);
   });
+
+  /*socket.on("destinatarios", () => {
+    //Envio al emisor los clientes cargador
+    nickname.forEach(valor =>{
+      console.log(clientes.get(valor));
+    });
+  })*/
 
   socket.on("avisarATodos", () => socket.broadcast.emit("alguienEscribe"));
 
-  // Al recibir un mensaje, hacer...
+  // Al recibir un mensaje...
   socket.on("messageTo", (msg) => {
-    // Enviar mensaje a todos los nombres menos al emisor
+    
+    // Muestra por consolada el mensaje y destinatario
     console.log(msg);
     const destinatario = nickname.get(msg.to);
     const emisor = clientes.get(socket.id);
 
-    // cuando el destinatario no existe hace broadcast
+    // Enviar mensaje a todos los nombres menos al emisor en caso de no tener un destinatario 
     if (destinatario) {
       socket.to(destinatario).emit('message', { "message": msg.message, "from": emisor });
     } else {
+      // Enviar a todos los clientes excepto al emisor
       socket.broadcast.emit('message', { "message": msg.message, "from": emisor });
     }
   });
@@ -49,11 +58,3 @@ io.on("connection", (socket) => {
     clientes.delete(socket.id);
   });
 });
-
-// Inicia el servidor http en el puerto designado
-//http.listen(port, function () {
-//  console.log("Server started on: " + port);
-//});
-
- // sending to individual socketid (private message)
- //io.to('${socketId}').emit('hey', 'I just met you');

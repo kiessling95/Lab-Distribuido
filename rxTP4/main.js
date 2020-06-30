@@ -31,9 +31,19 @@ socket.on("message", function (msg) {
 });
 
 // Al conectarse un nuevo destinatario
-socket.on("nuevoDest", function (name){
-  console.log(name);
+socket.on("destC", function (name){
+  //const opcionSelect = document.createElement('option');
+  //opcionSelect.value = name;
+  //$("#nicknameDestinatario").append(opcionSelect);
+  
   $("#nicknameDestinatario").append($('<option value="'+name+'">'+name+'</option>'));
+});
+
+$("#nicknameDestinatario").on("click", () => {
+  $("#nicknameDestinatario option").remove();
+  
+  $("#nicknameDestinatario").append($('<option value="TODOS"+">Todos</option>'));
+  socket.emit("destinatarios");
 });
 
 // Cuando se presiona el boton de 'Send', se envia el mensaje
