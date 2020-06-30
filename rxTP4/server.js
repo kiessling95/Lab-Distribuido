@@ -24,12 +24,13 @@ io.on("connection", (socket) => {
     console.log(`Se conecto muevo cliente nickname -> ${name}`);
   });
 
-  /*socket.on("destinatarios", () => {
+  socket.on("destinatarios", () => {
     //Envio al emisor los clientes cargador
-    nickname.forEach(valor =>{
-      console.log(clientes.get(valor));
+    clientes.forEach(valor =>{
+      //console.log(clientes.get(valor));
+      socket.emit("destC", valor)
     });
-  })*/
+  });
 
   socket.on("avisarATodos", () => socket.broadcast.emit("alguienEscribe"));
 
@@ -53,6 +54,7 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     // Dar de baja al cerrar la sesion
     const userName = clientes.get(socket.id);
+    socket.broadcast.emit("destDesc",userName);
     console.log(`${userName} cerro la sesion`);
     nickname.delete(clientes.get(socket.id));
     clientes.delete(socket.id);

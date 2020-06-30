@@ -5,6 +5,9 @@ chatBox.scrollTop = chatBox.scrollHeight - chatBox.clientHeight;
 // Socket.io
 const socket = io();
 
+//Listado Destinatarios
+const listDestinatario = new Array();
+
 // Al recibir un mensaje, crea un elemento en la lista chat mostrando dicho mensaje
 socket.on("message", function (msg) {
   
@@ -32,17 +35,35 @@ socket.on("message", function (msg) {
 
 // Al conectarse un nuevo destinatario
 socket.on("destC", function (name){
-  //const opcionSelect = document.createElement('option');
-  //opcionSelect.value = name;
-  //$("#nicknameDestinatario").append(opcionSelect);
-  
-  $("#nicknameDestinatario").append($('<option value="'+name+'">'+name+'</option>'));
+  if($("#nickActual").text() != name){
+    if(listDestinatario.length == 0){
+      listDestinatario.push(name);
+      $("#nicknameDestinatario").append($('<option value="'+name+'">'+name+'</option>'));
+    }else{
+        const nuevo =true;
+        listDestinatario.forEach(element => {
+          if(element == name){
+            nuevo =false;
+          }
+        });
+        if(nuevo){
+          listDestinatario.push(name);
+          $("#nicknameDestinatario").append($('<option value="'+name+'">'+name+'</option>'));
+        }
+      
+    }
+  }
 });
 
-$("#nicknameDestinatario").on("click", () => {
+// Cuando alguien se va
+socket.on("destDesc", function (name){
+  listDestinatario = new Array();
   $("#nicknameDestinatario option").remove();
-  
   $("#nicknameDestinatario").append($('<option value="TODOS"+">Todos</option>'));
+})
+
+$("#nicknameDestinatario").on("click", () => {
+  
   socket.emit("destinatarios");
 });
 
