@@ -15,10 +15,10 @@ socket.on("message", function (msg) {
   liMessageRecibed.className = "messageReceived";
 
   const divFrom = document.createElement('div');
-  divFrom.className="formatFrom";
+  divFrom.className ="formatFrom";
 
   const divMessage = document.createElement('div');
-  divMessage.className="formatMessage";
+  divMessage.className = "formatMessage";
 
   const textMessage = document.createTextNode(msg.message);
   const textFrom = document.createTextNode(" "+msg.from+":");
@@ -34,36 +34,34 @@ socket.on("message", function (msg) {
 });
 
 // Al conectarse un nuevo destinatario
-socket.on("destC", function (name){
-  if($("#nickActual").text() != name){
-    if(listDestinatario.length == 0){
+socket.on("destC", (name) => {
+  if ($("#nickActual").text() != name) {
+    if (listDestinatario.length == 0) {
       listDestinatario.push(name);
       $("#nicknameDestinatario").append($('<option value="'+name+'">'+name+'</option>'));
-    }else{
-        const nuevo =true;
+    } else {
+        const nuevo = true;
         listDestinatario.forEach(element => {
-          if(element == name){
-            nuevo =false;
+          if (element == name) {
+            nuevo = false;
           }
         });
-        if(nuevo){
+        if (nuevo) {
           listDestinatario.push(name);
           $("#nicknameDestinatario").append($('<option value="'+name+'">'+name+'</option>'));
         }
-      
     }
   }
 });
 
 // Cuando alguien se va
-socket.on("destDesc", function (){
-  listDestinatario.splice(0,listDestinatario.length);
+socket.on("destDesc", () => {
+  listDestinatario.splice(0, listDestinatario.length);
   $("#nicknameDestinatario option").remove();
   $("#nicknameDestinatario").append($('<option value="TODOS"+">Todos</option>'));
 });
 
 $("#nicknameDestinatario").on("click", () => {
-  
   socket.emit("destinatarios");
 });
 
@@ -75,17 +73,15 @@ $("#messageToSend").keypress((key) => {
   if (key.which == 13) {
     sendMessage();
   } else {
-    escribiendo();
+    socket.emit("avisarATodos");
   }
 });
 
-function escribiendo() {
-  socket.emit("avisarATodos");
-  socket.on("alguienEscribe", () => {
-    $("#escribiendo").text("Alguien está escribiendo...");
-    setTimeout(() => $("#escribiendo").text(""), 3000);
-  });
-}
+
+socket.on("alguienEscribe", () => {
+  $("#escribiendo").text("Alguien está escribiendo...");
+  setTimeout(() => $("#escribiendo").text(""), 3000);
+});
 
 
 // Cuando se apreta 'enter', se asigna el nuevo nick

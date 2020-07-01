@@ -26,9 +26,10 @@ io.on("connection", (socket) => {
 
   socket.on("destinatarios", () => {
     //Envio al emisor los clientes cargador
-    clientes.forEach(valor =>{
+    clientes.forEach( (aNickname, aSocketId) => {
       //console.log(clientes.get(valor));
-      socket.emit("destC", valor);
+      socket.broadcast.emit("destC", aNickname);
+      //socket.emit("destC", aNickname);
     });
   });
 
