@@ -1,31 +1,27 @@
 // Para que el scroll del chat quede siempre abajo
-let chatBox = document.querySelector('#chat');
+let chatBox = document.querySelector("#chat");
 chatBox.scrollTop = chatBox.scrollHeight - chatBox.clientHeight;
 
 // Socket.io
 const socket = io();
 
-//Listado Destinatarios
-const listDestinatario = new Array();
-
 // Al recibir un mensaje, crea un elemento en la lista chat mostrando dicho mensaje
 socket.on("message", function (msg) {
-  
-  const liMessageRecibed = document.createElement('li');
+  const liMessageRecibed = document.createElement("li");
   liMessageRecibed.className = "messageReceived";
 
-  const divFrom = document.createElement('div');
-  divFrom.className ="formatFrom";
+  const divFrom = document.createElement("div");
+  divFrom.className = "formatFrom";
 
-  const divMessage = document.createElement('div');
+  const divMessage = document.createElement("div");
   divMessage.className = "formatMessage";
 
   const textMessage = document.createTextNode(msg.message);
-  const textFrom = document.createTextNode(" "+msg.from+":");
+  const textFrom = document.createTextNode(" " + msg.from + ":");
 
-  divFrom.innerHTML = ('<i class="fas fa-user-alt"></i>')
+  divFrom.innerHTML = '<i class="fas fa-user-alt"></i>';
   divFrom.appendChild(textFrom);
-  divMessage.appendChild(textMessage)
+  divMessage.appendChild(textMessage);
 
   liMessageRecibed.append(divFrom);
   liMessageRecibed.append(divMessage);
@@ -33,36 +29,23 @@ socket.on("message", function (msg) {
   $("#chat").append(liMessageRecibed);
 });
 
-// Al conectarse un nuevo destinatario
-socket.on("destC", (name) => {
-  if ($("#nickActual").text() != name) {
-    if (listDestinatario.length == 0) {
-      listDestinatario.push(name);
-      $("#nicknameDestinatario").append($('<option value="'+name+'">'+name+'</option>'));
-    } else {
-        const nuevo = true;
-        listDestinatario.forEach(element => {
-          if (element == name) {
-            nuevo = false;
-          }
-        });
-        if (nuevo) {
-          listDestinatario.push(name);
-          $("#nicknameDestinatario").append($('<option value="'+name+'">'+name+'</option>'));
-        }
-    }
-  }
+socket.on("listaConectados", (lista) => {
+  lista.forEach((nombre) =>
+    $("#nicknameDestinatario").append(
+      $('<option value="' + nombre + '">' + nombre + "</option>")
+    )
+  );
+});
+
+socket.on("nuevoCliente", (nombre) => {
+  $("#nicknameDestinatario").append(
+    $('<option value="' + nombre + '">' + nombre + "</option>")
+  );
 });
 
 // Cuando alguien se va
-socket.on("destDesc", () => {
-  listDestinatario.splice(0, listDestinatario.length);
-  $("#nicknameDestinatario option").remove();
-  $("#nicknameDestinatario").append($('<option value="TODOS"+">Todos</option>'));
-});
-
-$("#nicknameDestinatario").on("click", () => {
-  socket.emit("destinatarios");
+socket.on("clienteDejaChat", (userName) => {
+  $(`#nicknameDestinatario option[value='${userName}']`).remove();
 });
 
 // Cuando se presiona el boton de 'Send', se envia el mensaje
@@ -77,12 +60,10 @@ $("#messageToSend").keypress((key) => {
   }
 });
 
-
 socket.on("alguienEscribe", () => {
   $("#escribiendo").text("Alguien está escribiendo...");
   setTimeout(() => $("#escribiendo").text(""), 3000);
 });
-
 
 // Cuando se apreta 'enter', se asigna el nuevo nick
 $("#nickname").keypress((key) => {
@@ -107,13 +88,14 @@ function sendMessage() {
     return false;
   }
   const name = $("#nicknameDestinatario").val().trim();
-  socket.emit("messageTo", { "message": message, "to": name });
+  socket.emit("messageTo", { message: message, to: name });
   $("#messageToSend").val("").focus();
-  $("#chat").append($('<li class="messageSended">').text(message)); 
-  
+  $("#chat").append($('<li class="messageSended">').text(message));
 
   // Agrega el mensaje a la lista del chat como un mensaje enviado por el cliente, y no recibido del servidor
-  $("#contenedor_chat").stop().animate({ scrollTop: $("#contenedor_chat")[0].scrollHeight }, 1000);
+  $("#contenedor_chat")
+    .stop()
+    .animate({ scrollTop: $("#contenedor_chat")[0].scrollHeight }, 1000);
 
   return false;
 }
