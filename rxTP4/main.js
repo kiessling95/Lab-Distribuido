@@ -56,11 +56,11 @@ socket.on("destC", function (name){
 });
 
 // Cuando alguien se va
-socket.on("destDesc", function (name){
-  listDestinatario = new Array();
+socket.on("destDesc", function (){
+  listDestinatario.splice(0,listDestinatario.length);
   $("#nicknameDestinatario option").remove();
   $("#nicknameDestinatario").append($('<option value="TODOS"+">Todos</option>'));
-})
+});
 
 $("#nicknameDestinatario").on("click", () => {
   

@@ -28,7 +28,7 @@ io.on("connection", (socket) => {
     //Envio al emisor los clientes cargador
     clientes.forEach(valor =>{
       //console.log(clientes.get(valor));
-      socket.emit("destC", valor)
+      socket.emit("destC", valor);
     });
   });
 
@@ -54,7 +54,8 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     // Dar de baja al cerrar la sesion
     const userName = clientes.get(socket.id);
-    socket.broadcast.emit("destDesc",userName);
+    socket.broadcast.emit("destDesc");
+    socket.emit("destDesc");
     console.log(`${userName} cerro la sesion`);
     nickname.delete(clientes.get(socket.id));
     clientes.delete(socket.id);
